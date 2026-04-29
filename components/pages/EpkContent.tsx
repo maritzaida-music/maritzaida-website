@@ -54,7 +54,7 @@ const discography = [
   { year: "2026", title: "Una Noche (En Vivo)", type: "Live Album", note: "Live Boleros Clásicos repertoire" },
   { year: "2025", title: "Radio Bohemia Volumen I", type: "LP", note: "Feat. Sharon Riley Rexach" },
   { year: "2025", title: "El Otro Camino", type: "EP", note: "Restores 1959 film score compositions" },
-  { year: "2025", title: "Sentimientos En Vivo", type: "Live Album", note: "Live Rexach/Umpierre repertoire" },
+  { year: "2025", title: "Sentimientos En Vivo", type: "LP", note: "Live Rexach/Umpierre repertoire" },
   { year: "2024", title: "Alma Adentro", type: "LP", note: "#16 Top 20 Most Outstanding Albums — La Fundación Para La Cultura Popular de Puerto Rico" },
   { year: "2024", title: "Lamento de Navidad", type: "Single", note: "" },
   { year: "2023", title: "Boleros Clásicos Volumen II", type: "LP", note: "Prod. Charlie Hunter · SideHustle Records" },

@@ -66,7 +66,7 @@ export const albums: Album[] = [
       es: "Grabado en vivo, este álbum presenta composiciones de Rexach/Umpierre junto a obras de otros queridos compositores de la época.",
     },
     youtube: "https://www.youtube.com/playlist?list=OLAK5uy_lYZsA1qGueNXL34d68JWhRyO2QRhAOZvw",
-    type: "Live Album",
+    type: "LP",
     tags: ["Live", "Música Bohemia", "Bolero"],
     credits: "Voice · 7-string guitar · Cello · Distributed by SideHustle Records",
   },
