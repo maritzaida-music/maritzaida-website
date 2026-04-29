@@ -56,7 +56,7 @@ export const metadata: Metadata = {
       "Puerto Rican vocalist dedicated to música bohemia and bolero, preserving the timeless legacy of Sylvia Rexach and Tutti Umpierre.",
     images: [
       {
-        url: "/photos/maritzaida-hero.jpg",
+        url: "/photos/20250828-SSP04706.jpg",
         width: 1200,
         height: 630,
         alt: "Maritzaida – Puerto Rican música bohemia and bolero vocalist",
@@ -68,7 +68,7 @@ export const metadata: Metadata = {
     title: "Maritzaida | Música Bohemia & Bolero",
     description:
       "Puerto Rican vocalist dedicated to música bohemia and bolero, preserving the timeless legacy of Sylvia Rexach and Tutti Umpierre.",
-    images: ["/photos/maritzaida-hero.jpg"],
+    images: ["/photos/20250828-SSP04706.jpg"],
   },
   robots: {
     index: true,
@@ -91,7 +91,7 @@ const artistJsonLd = {
   "@type": "MusicGroup",
   name: "Maritzaida",
   url: BASE_URL,
-  image: `${BASE_URL}/photos/maritzaida-hero.jpg`,
+  image: `${BASE_URL}/photos/20250828-SSP04706.jpg`,
   description:
     "Maritzaida is a Puerto Rican vocalist dedicated to música bohemia and bolero, preserving the legacy of composer Sylvia Rexach and guitarist Tutti Umpierre.",
   genre: ["Música Bohemia", "Bolero", "Latin", "Classical Bolero"],
