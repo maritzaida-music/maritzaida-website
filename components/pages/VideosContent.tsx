@@ -3,15 +3,15 @@
 import { useLang } from "@/components/LanguageContext";
 
 const videos = [
-  { id: "GV_Xr8QiBNE", title: "Maritzaida – Música Bohemia & Bolero", description: "Official music video" },
-  { id: "ZwICYu2IXYM", title: "Maritzaida – Live Performance", description: "Live bolero performance" },
-  { id: "_z_iK_6Ep9M", title: "Maritzaida – Sentimientos", description: "Official video" },
-  { id: "zVF0G8Vl7bI", title: "Maritzaida – Alma Adentro", description: "From the acclaimed 2024 album" },
-  { id: "NLC5Frwrc4Y", title: "Maritzaida – Sylvia Rexach Tribute", description: "Honoring Sylvia Rexach" },
-  { id: "fORe8jzTZAc", title: "Maritzaida – Radio Bohemia", description: "From Radio Bohemia Volumen I" },
-  { id: "VlPOay_YW1k", title: "Maritzaida – Bolero Clásico", description: "Live performance" },
-  { id: "-rWniJboWuE", title: "Maritzaida – El Otro Camino", description: "From the 2025 EP" },
-  { id: "zsS7JXYYeBQ", title: "Maritzaida – Live in Concert", description: "Full performance" },
+  { id: "GV_Xr8QiBNE", title: "Yo Era Una Flor", description: "Rexach/Umpierre" },
+  { id: "ZwICYu2IXYM", title: "Pedazo de Luna", description: "Rexach/Umpierre" },
+  { id: "_z_iK_6Ep9M", title: "Quisiera Ser", description: "Rexach/Umpierre" },
+  { id: "zVF0G8Vl7bI", title: "Dios de Oro (feat. Sharon Riley Rexach)", description: "Radio Bohemia Volumen I" },
+  { id: "NLC5Frwrc4Y", title: "Senda de Flores", description: "Sentimientos En Vivo" },
+  { id: "fORe8jzTZAc", title: "Arenas del Desierto", description: "" },
+  { id: "VlPOay_YW1k", title: "Silencio", description: "" },
+  { id: "-rWniJboWuE", title: "No Soy de Aquí, Ni Soy de Allá", description: "" },
+  { id: "zsS7JXYYeBQ", title: "Mar y Cielo", description: "" },
 ];
 
 export default function VideosContent() {
