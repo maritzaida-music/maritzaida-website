@@ -49,7 +49,7 @@ export default function HomeContent() {
       <section className="relative min-h-screen flex items-end" aria-label="Hero">
         <div className="absolute inset-0">
           <Image
-            src="/photos/LynnDonovanPhotography-0139.jpg"
+            src="/photos/20250828-SSP05150.jpg"
             alt="Maritzaida – Puerto Rican música bohemia vocalist"
             fill
             priority
