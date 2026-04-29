@@ -8,10 +8,10 @@ const videos = [
   { id: "_z_iK_6Ep9M", title: "Quisiera Ser", description: "Rexach/Umpierre" },
   { id: "zVF0G8Vl7bI", title: "Dios de Oro (feat. Sharon Riley Rexach)", description: "Radio Bohemia Volumen I" },
   { id: "NLC5Frwrc4Y", title: "Senda de Flores", description: "Sentimientos En Vivo" },
-  { id: "fORe8jzTZAc", title: "Arenas del Desierto", description: "" },
-  { id: "VlPOay_YW1k", title: "Silencio", description: "" },
-  { id: "-rWniJboWuE", title: "No Soy de Aquí, Ni Soy de Allá", description: "" },
-  { id: "zsS7JXYYeBQ", title: "Mar y Cielo", description: "" },
+  { id: "fORe8jzTZAc", title: "Arenas del Desierto", description: "Sentimientos En Vivo" },
+  { id: "VlPOay_YW1k", title: "Silencio", description: "Sentimientos En Vivo" },
+  { id: "-rWniJboWuE", title: "No Soy de Aquí, Ni Soy de Allá", description: "Sentimientos En Vivo" },
+  { id: "zsS7JXYYeBQ", title: "Mar y Cielo", description: "Sentimientos En Vivo" },
 ];
 
 export default function VideosContent() {
