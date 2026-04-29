@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useLang } from "@/components/LanguageContext";
 
 const videos = [
@@ -20,8 +21,22 @@ export default function VideosContent() {
   return (
     <>
       {/* Page header */}
-      <div className="pt-32 pb-16" style={{ background: "var(--bg-card)", borderBottom: "1px solid var(--border)" }}>
-        <div className="max-w-7xl mx-auto px-6">
+      <div className="relative pt-32 pb-24 overflow-hidden" style={{ borderBottom: "1px solid var(--border)" }}>
+        <div className="absolute inset-0">
+          <Image
+            src="/photos/20250828-SSP05607.jpg"
+            alt="Maritzaida performing live"
+            fill
+            className="object-cover object-top"
+            sizes="100vw"
+            priority
+          />
+          <div
+            className="absolute inset-0"
+            style={{ background: "linear-gradient(to right, rgba(13,11,9,0.92) 40%, rgba(13,11,9,0.5) 100%)" }}
+          />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
           <p className="text-xs tracking-[0.3em] uppercase mb-3" style={{ color: "var(--gold)", fontFamily: "var(--font-inter)" }}>
             {t("videos.label")}
           </p>
