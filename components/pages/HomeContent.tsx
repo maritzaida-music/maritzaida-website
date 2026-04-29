@@ -53,7 +53,7 @@ export default function HomeContent() {
             alt="Maritzaida – Puerto Rican música bohemia vocalist"
             fill
             priority
-            className="object-cover object-center"
+            className="object-cover object-top"
             sizes="100vw"
           />
           <div
@@ -114,7 +114,7 @@ export default function HomeContent() {
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2" aria-hidden="true">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2" aria-hidden="true">
           <span className="text-xs tracking-widest uppercase" style={{ color: "var(--text-dim)", letterSpacing: "0.2em" }}>
             {t("home.hero.scroll")}
           </span>

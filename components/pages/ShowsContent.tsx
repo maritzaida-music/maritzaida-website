@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import BandsintownWidget from "@/components/BandsintownWidget";
 import { useLang } from "@/components/LanguageContext";
 
 export default function ShowsContent() {
@@ -42,9 +41,11 @@ export default function ShowsContent() {
         </div>
       </div>
 
-      {/* Bandsintown embed */}
-      <section className="max-w-4xl mx-auto px-6 py-16" aria-label="Upcoming shows">
-        <BandsintownWidget artistName="Maritzaida" />
+      {/* No upcoming shows */}
+      <section className="max-w-4xl mx-auto px-6 py-16 text-center" aria-label="Upcoming shows">
+        <p className="text-base tracking-widest uppercase" style={{ color: "var(--text-dim)", fontFamily: "var(--font-inter)", letterSpacing: "0.2em" }}>
+          No Upcoming Concerts
+        </p>
       </section>
 
       {/* Booking CTA */}
