@@ -130,7 +130,10 @@ export default function MusicContent() {
                   className="inline-flex items-center gap-2 text-sm tracking-widest uppercase font-medium hover-gold"
                   style={{ color: "var(--gold)", letterSpacing: "0.12em", fontFamily: "var(--font-inter)", width: "fit-content" }}
                 >
-                  {lang === "en" ? "Listen on YouTube ↗" : "Escuchar en YouTube ↗"}
+                  {album.availableDate
+                    ? (lang === "en" ? `Listen on YouTube Starting ${album.availableDate} ↗` : `Disponible en YouTube el ${album.availableDate} ↗`)
+                    : (lang === "en" ? "Listen on YouTube ↗" : "Escuchar en YouTube ↗")
+                  }
                 </a>
               </div>
             </article>

@@ -9,6 +9,7 @@ export type Album = {
   tags: string[];
   accolade?: string;
   credits?: string;
+  availableDate?: string;
 };
 
 export const albums: Album[] = [
@@ -25,6 +26,7 @@ export const albums: Album[] = [
     type: "Live Album",
     tags: ["Live", "Bolero", "Bolero Clásico", "Música Bohemia"],
     credits: "Voice · Guitar · Cuatro Puertorriqueño · Bass · Distributed by SideHustle Records",
+    availableDate: "May 22nd, 2026",
   },
   {
     title: "Radio Bohemia Volumen I",
