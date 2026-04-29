@@ -240,7 +240,7 @@ const translations: Record<Lang, Record<string, string>> = {
 
     "home.about.label": "Acerca de",
     "home.about.heading": "Preservando un Legado Atemporal",
-    "home.about.p1": "Maritzaida es una vocalista puertorriqueña cuyo trabajo se centra en la música bohemia y el bolero — géneros que llevan el alma de la cultura latinoamericana. Junto a su esposo y guitarrista AJ Weibe, su voz sirve de puente vivo entre la era dorada de la música puertorriqueña y el presente.",
+    "home.about.p1": "Maritzaida es una vocalista puertorriqueña cuyo trabajo se centra en la música bohemia y el bolero — géneros que llevan el alma de la cultura latinoamericana. Su voz sirve de puente vivo entre la era dorada de la música puertorriqueña y el presente.",
     "home.about.p2": "Junto a su esposo y a través de sus grabaciones y actuaciones en vivo, dan nueva vida a las obras maestras de la compositora Sylvia Rexach y el guitarrista Tutti Umpierre — asegurando que estas composiciones insustituibles sean escuchadas por una nueva generación.",
     "home.about.cta": "Leer su Historia →",
 
