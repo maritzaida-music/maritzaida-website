@@ -42,7 +42,7 @@ const translations: Record<Lang, Record<string, string>> = {
 
     "home.about.label": "About",
     "home.about.heading": "Preserving a Timeless Legacy",
-    "home.about.p1": "Maritzaida is a Puerto Rican vocalist whose work centers on música bohemia and bolero — genres that carry the soul of Latin American culture. Together with her husband and guitarist AJ Weibe, her voice serves as a living bridge between the golden era of Puerto Rican music and the present day.",
+    "home.about.p1": "Maritzaida is a Puerto Rican vocalist whose work centers on música bohemia and bolero — genres that carry the soul of Latin American culture. Her voice serves as a living bridge between the golden era of Puerto Rican music and the present day.",
     "home.about.p2": "Alongside her husband and through their recordings and live performances, they breathe new life into the masterworks of composer Sylvia Rexach and guitarist Tutti Umpierre — ensuring these irreplaceable compositions are heard by a new generation.",
     "home.about.cta": "Read Her Story →",
 
