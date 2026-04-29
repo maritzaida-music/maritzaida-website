@@ -11,6 +11,7 @@ const featuredAlbums = [
     year: "2026",
     image: "/albums/una-noche-en-vivo.png",
     youtube: "https://www.youtube.com/playlist?list=OLAK5uy_ljxyKRqeN5RZjfwJsuDdoX3VCoL71jd-k",
+    availableDate: "May 22nd, 2026",
     description: {
       en: "A live celebration of the Boleros Clásicos repertoire — Maritzaida's voice and AJ Weibe's guitar, captured before a live audience.",
       es: "Una celebración en vivo del repertorio de Boleros Clásicos — la voz de Maritzaida y la guitarra de AJ Weibe, captados ante el público.",
@@ -160,7 +161,10 @@ export default function HomeContent() {
                       className="text-xs tracking-widest uppercase font-medium"
                       style={{ color: "var(--gold)", letterSpacing: "0.15em" }}
                     >
-                      {t("home.listen")}
+                      {album.availableDate
+                        ? (lang === "en" ? `Listen on YouTube — Beginning ${album.availableDate}` : `En YouTube — Disponible el ${album.availableDate}`)
+                        : t("home.listen")
+                      }
                     </a>
                   </div>
                 </div>
