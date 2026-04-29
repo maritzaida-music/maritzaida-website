@@ -29,14 +29,14 @@ const featuredAlbums = [
     },
   },
   {
-    title: "Alma Adentro",
-    subtitle: "La Música de Sylvia Rexach y Tuti Umpierre",
-    year: "2024",
-    image: "/albums/alma-adentro-front.jpg",
-    youtube: "https://www.youtube.com/playlist?list=OLAK5uy_lF34Spj_Mvq46TOf3NxhHej3em5AmudBI",
+    title: "Sentimientos En Vivo",
+    subtitle: "",
+    year: "2025",
+    image: "/albums/sentimientos-en-vivo-front.jpg",
+    youtube: "https://www.youtube.com/playlist?list=OLAK5uy_lYZsA1qGueNXL34d68JWhRyO2QRhAOZvw",
     description: {
-      en: "Ranked #16 on the Top 20 Most Outstanding Albums of 2024. A recreation of the legendary 1958 album.",
-      es: "Clasificado #16 entre los 20 Álbumes Más Destacados de 2024. Una recreación del legendario álbum de 1958.",
+      en: "Captured live, this recording features Rexach/Umpierre compositions alongside works by other beloved composers of the era.",
+      es: "Grabado en vivo, este álbum presenta composiciones de Rexach/Umpierre junto a obras de otros queridos compositores de la época.",
     },
   },
 ];
