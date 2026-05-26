@@ -11,7 +11,6 @@ const featuredAlbums = [
     year: "2026",
     image: "/albums/una-noche-en-vivo.png",
     youtube: "https://www.youtube.com/playlist?list=OLAK5uy_ljxyKRqeN5RZjfwJsuDdoX3VCoL71jd-k",
-    availableDate: "May 22nd, 2026",
     description: {
       en: "A live celebration of the Boleros Clásicos repertoire — Maritzaida's voice and AJ Weibe's guitar, captured before a live audience.",
       es: "Una celebración en vivo del repertorio de Boleros Clásicos — la voz de Maritzaida y la guitarra de AJ Weibe, captados ante el público.",
