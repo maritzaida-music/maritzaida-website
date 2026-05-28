@@ -160,10 +160,7 @@ export default function HomeContent() {
                       className="text-xs tracking-widest uppercase font-medium"
                       style={{ color: "var(--gold)", letterSpacing: "0.15em" }}
                     >
-                      {album.availableDate
-                        ? (lang === "en" ? `Listen on YouTube — Beginning ${album.availableDate}` : `En YouTube — Disponible el ${album.availableDate}`)
-                        : t("home.listen")
-                      }
+                      {t("home.listen")}
                     </a>
                   </div>
                 </div>
