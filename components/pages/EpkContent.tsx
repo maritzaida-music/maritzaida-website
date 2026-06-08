@@ -7,6 +7,12 @@ import { useLang } from "@/components/LanguageContext";
 
 const pressItems = [
   {
+    title: "Artist In Focus: Maritzaida",
+    pub: "Arts Council of Greater Greensboro",
+    year: "2026",
+    href: "https://theacgg.org/artist-in-focus/artist-in-focus-maritzaida/",
+  },
+  {
     title: "Obra de Sylvia Rexach viva en Maritzaida",
     pub: "Fundación Nacional para la Cultura Popular",
     year: "2025",
