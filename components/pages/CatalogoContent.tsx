@@ -4,7 +4,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLang } from "@/components/LanguageContext";
 
-const catalog: { album: string; year: string; youtube: string; songs: string[] }[] = [
+const catalog: { album: string; year: string; youtube?: string; comingSoon?: string; songs: string[] }[] = [
+  {
+    album: "Radio Bohemia Volumen II",
+    year: "2026",
+    comingSoon: "Coming Fall 2026",
+    songs: [
+      "Yo Era Una Flor", "Mi Regalo", "Una Vez", "Costa de Oro",
+      "Despertar de Amor", "Novela de Amor", "¿Qué Has Hecho?", "Lamento de Navidad",
+      "Año Nuevo", "Inolvidable Tú", "Lloraré Mañana", "Senda de Flores",
+      "Más de Una Vez", "Balada de La Niña y El Río (Veray/Rexach)",
+      "El Amor Es Una Cruz (Hernández/Rexach)", "No Iré", "Realidad",
+      "Nuestra Luna (Featuring Jaime Lamboy)", "Y Entonces (Featuring Jaime Lamboy)",
+      "Nave Sin Rumbo (Featuring Jaime Lamboy)",
+    ],
+  },
   {
     album: "Radio Bohemia Volumen I",
     year: "2025",
@@ -119,7 +133,7 @@ export default function CatalogoContent() {
 
         {/* Catalog by album */}
         <div className="space-y-16">
-          {catalog.map(({ album, year, youtube, songs }) => (
+          {catalog.map(({ album, year, youtube, comingSoon, songs }) => (
             <section key={album} aria-labelledby={`album-${year}-${album.replace(/\s/g, "-")}`}>
               <div className="flex flex-wrap items-baseline justify-between gap-4 mb-4">
                 <div>
@@ -132,15 +146,21 @@ export default function CatalogoContent() {
                     {album}
                   </h2>
                 </div>
-                <a
-                  href={youtube}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs tracking-widest uppercase hover-gold shrink-0"
-                  style={{ color: "var(--gold)", letterSpacing: "0.15em" }}
-                >
-                  {t("catalogo.listen")}
-                </a>
+                {comingSoon ? (
+                  <span className="text-xs tracking-widest uppercase shrink-0 italic" style={{ color: "var(--text-dim)", letterSpacing: "0.15em" }}>
+                    {comingSoon}
+                  </span>
+                ) : (
+                  <a
+                    href={youtube}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs tracking-widest uppercase hover-gold shrink-0"
+                    style={{ color: "var(--gold)", letterSpacing: "0.15em" }}
+                  >
+                    {t("catalogo.listen")}
+                  </a>
+                )}
               </div>
               <div className="border-t" style={{ borderColor: "var(--border)" }}>
                 {songs.map((song, i) => (
