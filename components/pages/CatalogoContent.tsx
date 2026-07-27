@@ -14,7 +14,7 @@ const catalog: { album: string; year: string; youtube?: string; comingSoon?: str
       "Despertar de Amor", "Novela de Amor", "¿Qué Has Hecho?", "Lamento de Navidad",
       "Año Nuevo", "Inolvidable Tú", "Lloraré Mañana", "Senda de Flores",
       "Más de Una Vez", "Balada de La Niña y El Río (Veray/Rexach)",
-      "El Amor Es Una Cruz (Hernández/Rexach)", "No Iré", "Realidad",
+      "El Amor Es Una Cruz (Hernández/Rexach)", "No Iré", "Siempre Mi Amor", "Realidad",
       "Nuestra Luna (Featuring Jaime Lamboy)", "Y Entonces (Featuring Jaime Lamboy)",
       "Nave Sin Rumbo (Featuring Jaime Lamboy)",
     ],
