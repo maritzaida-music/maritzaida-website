@@ -22,6 +22,7 @@ export default function Nav() {
 
   const topLinks = [
     { href: "/shows", label: t("nav.shows") },
+    { href: "/store", label: t("nav.store") },
     { href: "/epk", label: t("nav.epk") },
     { href: "/contact", label: t("nav.contact") },
   ];

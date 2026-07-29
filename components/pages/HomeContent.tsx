@@ -311,15 +311,13 @@ export default function HomeContent() {
               {t("home.store.heading")}
             </h2>
           </div>
-          <a
-            href="https://www.charliehunter.com/merchandise/maritzaida"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/store"
             className="px-8 py-3 text-sm tracking-widest uppercase font-medium shrink-0 transition-all duration-300 hover:opacity-90"
             style={{ background: "var(--gold)", color: "var(--bg)", letterSpacing: "0.15em", fontFamily: "var(--font-inter)" }}
           >
             {t("home.store.cta")}
-          </a>
+          </Link>
         </div>
       </section>
 
