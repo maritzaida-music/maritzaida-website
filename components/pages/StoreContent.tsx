@@ -84,9 +84,9 @@ export default function StoreContent() {
       const { url, error } = await res.json();
       if (error || !url) throw new Error(error || "No URL");
       window.location.href = url;
-    } catch {
+    } catch (e) {
       setLoading(null);
-      alert("Something went wrong. Please try again.");
+      alert("Error: " + (e instanceof Error ? e.message : String(e)));
     }
   }
 
