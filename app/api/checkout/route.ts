@@ -29,6 +29,11 @@ const products: Record<string, { name: string; price: number; image: string }> =
     price: 1500,
     image: `${BASE_URL}/albums/radio-bohemia-vol-1.png`,
   },
+  "radio-bohemia-vol-2": {
+    name: "Radio Bohemia Volumen II (Pre-Order)",
+    price: 2500,
+    image: `${BASE_URL}/albums/radio-bohemia-vol-2.png`,
+  },
 };
 
 export async function POST(req: NextRequest) {

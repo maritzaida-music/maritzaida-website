@@ -4,7 +4,26 @@ import Image from "next/image";
 import { useState } from "react";
 import { useLang } from "@/components/LanguageContext";
 
-const products = [
+const products: {
+  id: string;
+  title: string;
+  subtitle: string;
+  year: string;
+  image: string;
+  price: string;
+  preOrder?: boolean;
+  preOrderNote?: string;
+}[] = [
+  {
+    id: "radio-bohemia-vol-2",
+    title: "Radio Bohemia Volumen II",
+    subtitle: "La Música de Sylvia Rexach y Tutti Umpierre",
+    year: "2026",
+    image: "/albums/radio-bohemia-vol-2.png",
+    price: "$25",
+    preOrder: true,
+    preOrderNote: "Ships Mid-October 2026",
+  },
   {
     id: "radio-bohemia-vol-1",
     title: "Radio Bohemia Volumen I",
@@ -135,6 +154,14 @@ export default function StoreContent() {
                   className="object-cover"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
+                {p.preOrder && (
+                  <span
+                    className="absolute top-3 left-3 px-2 py-1 text-xs tracking-widest uppercase"
+                    style={{ background: "var(--gold)", color: "var(--bg)", fontFamily: "var(--font-inter)", letterSpacing: "0.12em" }}
+                  >
+                    Pre-Order
+                  </span>
+                )}
               </div>
               <div className="p-6 flex flex-col flex-1">
                 <p className="text-xs tracking-widest uppercase mb-1" style={{ color: "var(--gold)" }}>{p.year}</p>
@@ -142,7 +169,10 @@ export default function StoreContent() {
                   {p.title}
                 </h2>
                 {p.subtitle && (
-                  <p className="text-xs mb-4 italic" style={{ color: "var(--text-muted)" }}>{p.subtitle}</p>
+                  <p className="text-xs mb-2 italic" style={{ color: "var(--text-muted)" }}>{p.subtitle}</p>
+                )}
+                {p.preOrderNote && (
+                  <p className="text-xs mb-2" style={{ color: "var(--gold)" }}>{p.preOrderNote}</p>
                 )}
                 <div className="mt-auto pt-4 flex items-center justify-between gap-4">
                   <div>
@@ -155,7 +185,7 @@ export default function StoreContent() {
                     className="px-6 py-2 text-xs tracking-widest uppercase font-medium transition-opacity hover:opacity-80 disabled:opacity-50"
                     style={{ background: "var(--gold)", color: "var(--bg)", letterSpacing: "0.15em", fontFamily: "var(--font-inter)" }}
                   >
-                    {loading === p.id ? l.buying : l.buy}
+                    {loading === p.id ? l.buying : p.preOrder ? "Pre-Order" : l.buy}
                   </button>
                 </div>
               </div>
