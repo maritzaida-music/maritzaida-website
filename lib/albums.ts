@@ -10,9 +10,25 @@ export type Album = {
   accolade?: string;
   credits?: string;
   availableDate?: string;
+  comingSoon?: string;
 };
 
 export const albums: Album[] = [
+  {
+    title: "Radio Bohemia Volumen II",
+    subtitle: "La Música de Sylvia Rexach y Tutti Umpierre",
+    year: "2026",
+    image: "/albums/radio-bohemia-vol-2.png",
+    description: {
+      en: "The continuation of the Radio Bohemia series — bringing together four generations of Sylvia Rexach's family in an ambitious effort to preserve Puerto Rican Música Bohemia.",
+      es: "La continuación de la serie Radio Bohemia — reuniendo a cuatro generaciones de la familia de Sylvia Rexach en un ambicioso esfuerzo por preservar la Música Bohemia Puertorriqueña.",
+    },
+    youtube: "",
+    type: "LP",
+    tags: ["Música Bohemia", "Bolero", "Sylvia Rexach", "Tutti Umpierre", "Sharon Riley Rexach"],
+    credits: "Distributed by SideHustle Records",
+    comingSoon: "October 20th, 2026",
+  },
   {
     title: "Una Noche (En Vivo)",
     subtitle: "",

@@ -123,18 +123,24 @@ export default function MusicContent() {
                   ))}
                 </div>
 
-                <a
-                  href={album.youtube}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm tracking-widest uppercase font-medium hover-gold"
-                  style={{ color: "var(--gold)", letterSpacing: "0.12em", fontFamily: "var(--font-inter)", width: "fit-content" }}
-                >
-                  {album.availableDate
-                    ? (lang === "en" ? `Listen on YouTube Starting ${album.availableDate} ↗` : `Disponible en YouTube el ${album.availableDate} ↗`)
-                    : (lang === "en" ? "Listen on YouTube ↗" : "Escuchar en YouTube ↗")
-                  }
-                </a>
+                {album.comingSoon ? (
+                  <p className="text-sm tracking-widest uppercase font-medium" style={{ color: "var(--gold)", letterSpacing: "0.12em", fontFamily: "var(--font-inter)" }}>
+                    {lang === "en" ? `Coming Soon · ${album.comingSoon}` : `Próximamente · ${album.comingSoon}`}
+                  </p>
+                ) : (
+                  <a
+                    href={album.youtube}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm tracking-widest uppercase font-medium hover-gold"
+                    style={{ color: "var(--gold)", letterSpacing: "0.12em", fontFamily: "var(--font-inter)", width: "fit-content" }}
+                  >
+                    {album.availableDate
+                      ? (lang === "en" ? `Listen on YouTube Starting ${album.availableDate} ↗` : `Disponible en YouTube el ${album.availableDate} ↗`)
+                      : (lang === "en" ? "Listen on YouTube ↗" : "Escuchar en YouTube ↗")
+                    }
+                  </a>
+                )}
               </div>
             </article>
           ))}

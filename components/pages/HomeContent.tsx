@@ -6,6 +6,18 @@ import { useLang } from "@/components/LanguageContext";
 
 const featuredAlbums = [
   {
+    title: "Radio Bohemia Volumen II",
+    subtitle: "La Música de Sylvia Rexach y Tutti Umpierre",
+    year: "2026",
+    image: "/albums/radio-bohemia-vol-2.png",
+    youtube: null,
+    comingSoon: "October 20th, 2026",
+    description: {
+      en: "The continuation of the Radio Bohemia series — four generations of the Rexach family united in an effort to preserve Puerto Rican Música Bohemia.",
+      es: "La continuación de la serie Radio Bohemia — cuatro generaciones de la familia Rexach unidas para preservar la Música Bohemia Puertorriqueña.",
+    },
+  },
+  {
     title: "Una Noche (En Vivo)",
     subtitle: "",
     year: "2026",
@@ -150,18 +162,24 @@ export default function HomeContent() {
                   style={{ background: "linear-gradient(to top, rgba(13,11,9,0.9), transparent)" }}
                 >
                   <div className="p-5 w-full">
-                    <p className="text-sm leading-snug mb-3" style={{ color: "var(--text-muted)" }}>
+                    <p className="text-sm leading-snug mb-3" style={{ color: "white" }}>
                       {album.description[lang]}
                     </p>
-                    <a
-                      href={album.youtube}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs tracking-widest uppercase font-medium"
-                      style={{ color: "var(--gold)", letterSpacing: "0.15em" }}
-                    >
-                      {t("home.listen")}
-                    </a>
+                    {album.comingSoon ? (
+                      <p className="text-xs tracking-widest uppercase font-medium" style={{ color: "var(--gold)", letterSpacing: "0.15em" }}>
+                        Coming Soon · {album.comingSoon}
+                      </p>
+                    ) : (
+                      <a
+                        href={album.youtube!}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs tracking-widest uppercase font-medium"
+                        style={{ color: "var(--gold)", letterSpacing: "0.15em" }}
+                      >
+                        {t("home.listen")}
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
