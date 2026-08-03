@@ -18,6 +18,7 @@ export default function Nav() {
     { href: "/music", label: t("nav.music") },
     { href: "/videos", label: t("nav.videos") },
     { href: "/catalogo", label: t("nav.catalogo") },
+    { href: "/press/radio-bohemia-vol-2", label: lang === "en" ? "Press Releases" : "Comunicados de Prensa" },
   ];
 
   const topLinks = [
