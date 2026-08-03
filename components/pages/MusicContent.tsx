@@ -124,9 +124,20 @@ export default function MusicContent() {
                 </div>
 
                 {album.comingSoon ? (
-                  <p className="text-sm tracking-widest uppercase font-medium" style={{ color: "var(--gold)", letterSpacing: "0.12em", fontFamily: "var(--font-inter)" }}>
-                    {lang === "en" ? `Coming Soon · ${album.comingSoon}` : `Próximamente · ${album.comingSoon}`}
-                  </p>
+                  <div className="flex flex-wrap items-center gap-4">
+                    <p className="text-sm tracking-widest uppercase font-medium" style={{ color: "var(--gold)", letterSpacing: "0.12em", fontFamily: "var(--font-inter)" }}>
+                      {lang === "en" ? `Coming Soon · ${album.comingSoon}` : `Próximamente · ${album.comingSoon}`}
+                    </p>
+                    <a
+                      href="https://orcd.co/radiobohemiav2"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm tracking-widest uppercase font-medium hover-gold"
+                      style={{ color: "var(--gold)", letterSpacing: "0.12em", fontFamily: "var(--font-inter)", textDecoration: "underline" }}
+                    >
+                      {lang === "en" ? "Pre-Save ↗" : "Pre-guardar ↗"}
+                    </a>
+                  </div>
                 ) : (
                   <a
                     href={album.youtube}
