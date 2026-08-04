@@ -91,7 +91,7 @@ const content = {
     s7heading: "About Maritzaida and AJ Weibe",
     s7p1: "Maritzaida and AJ Weibe are a husband-and-wife musical duo dedicated to preserving and celebrating Puerto Rico's musical heritage through historically informed performance.",
     s7p2: "Working in close collaboration with Sylvia Rexach's family, their recordings present the music of Rexach and Tutti Umpierre with a commitment to historical authenticity while introducing the work to new audiences around the world.",
-    s7p3: "Before beginning this preservation project, both spent nearly a decade as professional musicians with the United States Air Force Band, performing throughout the United States, Europe and Asia while stationed in Virginia and Tokyo.",
+    s7p3: "Before beginning this preservation project, both spent nearly a decade as professional musicians with the United States Air Force Bands, performing throughout the United States, Europe and Asia while stationed in Virginia and Tokyo.",
     s7p4: "Today, Dr. Maritzaida Amador and Dr. AJ Weibe continue to lead dual careers as musicians and professionals while researching, preserving, recording and sharing Puerto Rico's musical legacy.",
     s7p5: "Radio Bohemia Volumen II will be distributed by SideHustle Records.",
 
@@ -186,7 +186,7 @@ const content = {
     s7heading: "Acerca de Maritzaida y AJ Weibe",
     s7p1: "Maritzaida y AJ Weibe son un dúo musical de esposos dedicado a preservar y celebrar el patrimonio musical de Puerto Rico a través de la interpretación históricamente informada.",
     s7p2: "Trabajando en estrecha colaboración con la familia de Sylvia Rexach, sus grabaciones presentan la música de Rexach y Tutti Umpierre con un compromiso de autenticidad histórica, al tiempo que introducen la obra a nuevas audiencias en todo el mundo.",
-    s7p3: "Antes de comenzar este proyecto de preservación, ambos pasaron casi una década como músicos profesionales en la Banda de la Fuerza Aérea de los Estados Unidos, actuando en los Estados Unidos, Europa y Asia mientras estaban destinados en Virginia y Tokio.",
+    s7p3: "Antes de comenzar este proyecto de preservación, ambos pasaron casi una década como músicos profesionales en las Bandas de la Fuerza Aérea de los Estados Unidos, actuando en los Estados Unidos, Europa y Asia mientras estaban destinados en Virginia y Tokio.",
     s7p4: "Hoy, la Dra. Maritzaida Amador y el Dr. AJ Weibe continúan desarrollando carreras paralelas como músicos y profesionales mientras investigan, preservan, graban y comparten el legado musical de Puerto Rico.",
     s7p5: "Radio Bohemia Volumen II será distribuido por SideHustle Records.",
 
@@ -464,7 +464,7 @@ export default function PressReleaseRBVIIContent() {
         <PressPhoto
           src="/press/switzerland.jpg"
           alt="Jaime Albizu Lamboy Riley, AJ Weibe, Maritzaida, and Jaime's wife in Switzerland"
-          caption={lang === "en" ? "Jaime Albizu Lamboy Riley with Maritzaida and AJ Weibe in Nyon, Switzerland." : "Jaime Albizu Lamboy Riley con Maritzaida y AJ Weibe en Nyon, Suiza."}
+          caption={lang === "en" ? "Jaime Albizu Lamboy Riley and his wife Omayra with Maritzaida and AJ Weibe in Nyon, Switzerland." : "Jaime Albizu Lamboy Riley y su esposa Omayra con Maritzaida y AJ Weibe en Nyon, Suiza."}
           aspect="aspect-[4/3]"
         />
 
