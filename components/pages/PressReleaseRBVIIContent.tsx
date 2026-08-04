@@ -91,7 +91,7 @@ const content = {
     s7heading: "About Maritzaida and AJ Weibe",
     s7p1: "Maritzaida and AJ Weibe are a husband-and-wife musical duo dedicated to preserving and celebrating Puerto Rico's musical heritage through historically informed performance.",
     s7p2: "Working in close collaboration with Sylvia Rexach's family, their recordings present the music of Rexach and Tutti Umpierre with a commitment to historical authenticity while introducing the work to new audiences around the world. Since 2023, Weibe and Maritzaida have released 8 albums.",
-    s7p3: "Before beginning this preservation project, both spent nearly a decade as professional musicians with the United States Air Force Bands, performing throughout the United States, Europe and Asia while stationed in Virginia and Tokyo.",
+    s7p3: "Before beginning this preservation project, both spent nearly a decade as professional musicians with United States Air Force Bands, performing throughout the United States, Europe and Asia while stationed in Virginia and Tokyo.",
     s7p4: "Today, Dr. Maritzaida Amador and Dr. AJ Weibe continue to lead dual careers as musicians and professionals while researching, preserving, recording and sharing Puerto Rico's musical legacy.",
     s7p5: "Radio Bohemia Volumen II will be distributed by SideHustle Records.",
 
