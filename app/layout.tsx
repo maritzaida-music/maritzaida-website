@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
+import ConditionalFooter from "@/components/ConditionalFooter";
 import { LanguageProvider } from "@/components/LanguageContext";
 import LanguageSplash from "@/components/LanguageSplash";
 
@@ -138,7 +138,7 @@ export default function RootLayout({
           <LanguageSplash />
           <Nav />
           <main className="flex-1">{children}</main>
-          <Footer />
+          <ConditionalFooter />
         </LanguageProvider>
       </body>
     </html>
