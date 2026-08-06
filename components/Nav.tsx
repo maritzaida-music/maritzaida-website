@@ -19,6 +19,7 @@ export default function Nav() {
     { href: "/videos", label: t("nav.videos") },
     { href: "/catalogo", label: t("nav.catalogo") },
     { href: "/press/radio-bohemia-vol-2", label: lang === "en" ? "Press Releases" : "Comunicados de Prensa" },
+    { href: "/radio", label: "Maritzaida Radio" },
   ];
 
   const topLinks = [

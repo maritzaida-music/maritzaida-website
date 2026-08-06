@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maritzaida Radio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Maritzaida Radio">
+  <meta name="theme-color" content="#241f0e">
+</head>
+<body>
+
+  <!-- Hidden YouTube player -->
+  <div id="yt-container">
+    <div id="yt-player"></div>
+  </div>
+
+  <!-- Radio -->
+  <div class="scene">
+    <div class="radio" id="radio">
+
+      <!-- Top bar -->
+      <div class="radio-topbar">
+        <div class="brand">MARITZAIDA RADIO</div>
+        <div class="topbar-right">
+          <button class="install-btn" id="install-btn" aria-label="Add to Home Screen">
+            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="1" width="12" height="18" rx="2" stroke="currentColor" stroke-width="1.4"/>
+              <line x1="10" y1="5" x2="10" y2="12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              <polyline points="7,9 10,12 13,9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              <line x1="7" y1="16" x2="13" y2="16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+            <span class="install-btn-label">Add to Home Screen</span>
+          </button>
+          <div class="on-air" id="on-air">
+            <div class="on-air-dot"></div>
+            <span class="on-air-text">ON AIR</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Frequency display -->
+      <div class="freq-display" id="freq-display">
+        <div class="freq-scale-wrap">
+          <canvas class="freq-scale" id="freq-scale"></canvas>
+          <div class="freq-needle" id="freq-needle" style="left: 43.5%"></div>
+        </div>
+        <div class="freq-info-row">
+          <div class="freq-station" id="freq-station">— — —</div>
+          <div class="freq-readout">
+            <span class="freq-number" id="freq-number">—.—</span>
+            <span class="freq-band">FM</span>
+          </div>
+        </div>
+        <div class="freq-subtitle" id="freq-subtitle">&nbsp;</div>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls">
+
+        <!-- Left: Vacuum tubes -->
+        <div class="ctrl-section ctrl-tubes">
+          <div class="tube" id="tube-1">
+            <div class="tube-body">
+              <div class="tube-highlight"></div>
+              <div class="tube-glow"></div>
+            </div>
+            <div class="tube-base"></div>
+          </div>
+          <div class="tube" id="tube-2">
+            <div class="tube-body">
+              <div class="tube-highlight"></div>
+              <div class="tube-glow"></div>
+            </div>
+            <div class="tube-base"></div>
+          </div>
+        </div>
+
+        <!-- Center: Tuning + Volume knobs -->
+        <div class="ctrl-section ctrl-knobs">
+          <div class="knob-group">
+            <div class="knob-surround" id="tuning-surround">
+              <svg class="knob-arc" viewBox="0 0 110 110">
+                <path class="arc-track" d="M 15 95 A 45 45 0 1 1 95 95" fill="none" stroke="#2a2520" stroke-width="3" stroke-linecap="round"/>
+                <path class="arc-fill" id="tuning-arc" d="M 15 95 A 45 45 0 0 1 55 10" fill="none" stroke="#d4891a" stroke-width="3" stroke-linecap="round" opacity="0"/>
+              </svg>
+              <div class="knob" id="tuning-knob">
+                <svg viewBox="0 0 100 100">
+                  <defs>
+                    <radialGradient id="knob-grad-lg" cx="38%" cy="32%" r="65%">
+                      <stop offset="0%" stop-color="#5a5040"/>
+                      <stop offset="50%" stop-color="#3a3224"/>
+                      <stop offset="100%" stop-color="#22201a"/>
+                    </radialGradient>
+                  </defs>
+                  <circle cx="50" cy="50" r="49" fill="#181410"/>
+                  <circle cx="50" cy="50" r="46" fill="none" stroke="#3a3428" stroke-width="4" stroke-dasharray="3 2.2"/>
+                  <circle cx="50" cy="50" r="42" fill="url(#knob-grad-lg)"/>
+                  <circle cx="50" cy="50" r="36" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+                  <g class="knob-dot" id="tuning-indicator" transform="rotate(0, 50, 50)">
+                    <circle cx="50" cy="11" r="3.5" fill="#e8dcc8" opacity="0.9"/>
+                  </g>
+                </svg>
+              </div>
+            </div>
+            <div class="knob-label" data-i18n="tuning">TUNING</div>
+          </div>
+
+          <div class="knob-group">
+            <div class="knob-surround knob-surround-sm" id="volume-surround">
+              <svg class="knob-arc knob-arc-sm" viewBox="0 0 80 80">
+                <path class="arc-track" d="M 10 68 A 32 32 0 1 1 70 68" fill="none" stroke="#2a2520" stroke-width="2.5" stroke-linecap="round"/>
+                <path class="arc-fill" id="volume-arc" d="M 10 68 A 32 32 0 0 1 40 8" fill="none" stroke="#d4891a" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+              </svg>
+              <div class="knob knob-sm" id="volume-knob">
+                <svg viewBox="0 0 72 72">
+                  <defs>
+                    <radialGradient id="knob-grad-sm" cx="38%" cy="32%" r="65%">
+                      <stop offset="0%" stop-color="#5a5040"/>
+                      <stop offset="50%" stop-color="#3a3224"/>
+                      <stop offset="100%" stop-color="#22201a"/>
+                    </radialGradient>
+                  </defs>
+                  <circle cx="36" cy="36" r="35" fill="#181410"/>
+                  <circle cx="36" cy="36" r="32" fill="none" stroke="#3a3428" stroke-width="3" stroke-dasharray="2.5 1.8"/>
+                  <circle cx="36" cy="36" r="29" fill="url(#knob-grad-sm)"/>
+                  <circle cx="36" cy="36" r="24" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+                  <g class="knob-dot" id="volume-indicator" transform="rotate(0, 36, 36)">
+                    <circle cx="36" cy="9" r="2.5" fill="#e8dcc8" opacity="0.9"/>
+                  </g>
+                </svg>
+              </div>
+            </div>
+            <div class="knob-label" data-i18n="volume">VOLUME</div>
+          </div>
+        </div>
+
+        <!-- Right: Analog VU meters + power -->
+        <div class="ctrl-section ctrl-right">
+          <div class="vu-pair">
+            <!-- Analog VU meter L -->
+            <div class="vu-meter">
+              <svg class="vu-analog" viewBox="0 0 72 45" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 13.1 23.9 A 28 28 0 0 1 58.9 23.9" fill="none" stroke="#1a1610" stroke-width="5" stroke-linecap="round"/>
+                <path d="M 13.1 23.9 A 28 28 0 0 1 43.2 13" fill="none" stroke="#1e5a2e" stroke-width="4" stroke-linecap="round"/>
+                <path d="M 43.2 13 A 28 28 0 0 1 54 18.6" fill="none" stroke="#6a5010" stroke-width="4" stroke-linecap="round"/>
+                <path d="M 54 18.6 A 28 28 0 0 1 58.9 23.9" fill="none" stroke="#6a2010" stroke-width="4" stroke-linecap="round"/>
+                <g class="vu-needle" id="vu-l" transform="rotate(-50, 36, 40)">
+                  <line x1="36" y1="40" x2="36" y2="14" stroke="#d4c8b0" stroke-width="1.2" stroke-linecap="round"/>
+                </g>
+                <circle cx="36" cy="40" r="2.5" fill="#1a1610"/>
+                <circle cx="36" cy="40" r="1" fill="#a09080" opacity="0.7"/>
+              </svg>
+              <div class="vu-ch" data-i18n="chL">L</div>
+            </div>
+            <!-- Analog VU meter R -->
+            <div class="vu-meter">
+              <svg class="vu-analog" viewBox="0 0 72 45" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 13.1 23.9 A 28 28 0 0 1 58.9 23.9" fill="none" stroke="#1a1610" stroke-width="5" stroke-linecap="round"/>
+                <path d="M 13.1 23.9 A 28 28 0 0 1 43.2 13" fill="none" stroke="#1e5a2e" stroke-width="4" stroke-linecap="round"/>
+                <path d="M 43.2 13 A 28 28 0 0 1 54 18.6" fill="none" stroke="#6a5010" stroke-width="4" stroke-linecap="round"/>
+                <path d="M 54 18.6 A 28 28 0 0 1 58.9 23.9" fill="none" stroke="#6a2010" stroke-width="4" stroke-linecap="round"/>
+                <g class="vu-needle" id="vu-r" transform="rotate(-50, 36, 40)">
+                  <line x1="36" y1="40" x2="36" y2="14" stroke="#d4c8b0" stroke-width="1.2" stroke-linecap="round"/>
+                </g>
+                <circle cx="36" cy="40" r="2.5" fill="#1a1610"/>
+                <circle cx="36" cy="40" r="1" fill="#a09080" opacity="0.7"/>
+              </svg>
+              <div class="vu-ch" data-i18n="chR">R</div>
+            </div>
+          </div>
+
+          <button class="power-btn" id="power-btn" aria-label="Power on/off">
+            <div class="power-ring">
+              <svg viewBox="0 0 36 36" fill="none">
+                <path d="M18 4 L18 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M10.5 8.5 A12 12 0 1 0 25.5 8.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              </svg>
+            </div>
+            <span class="power-label" data-i18n="power">POWER</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="radio-footer">
+        MARITZAIDA &middot; MÚSICA BOHEMIA &amp; BOLERO
+      </div>
+
+    </div>
+
+    <!-- Announcement strip -->
+    <div class="announcement">
+      <div class="ann-left">
+        <span class="ann-album">Radio Bohemia Volumen II</span>
+        <span class="ann-date">Coming October 20, 2026</span>
+      </div>
+      <div class="ann-links">
+        <a href="https://orcd.co/radiobohemiav2" target="_blank" rel="noopener noreferrer" class="ann-link">Pre-Save</a>
+        <span class="ann-divider">·</span>
+        <a href="https://www.maritzaida.com/store" target="_blank" rel="noopener noreferrer" class="ann-link">Pre-Order CD</a>
+      </div>
+    </div>
+
+    <!-- Donate -->
+    <div class="donate-strip">
+      <span class="donate-msg">Thank you for your support.</span>
+      <a href="https://buy.stripe.com/eVq3cvd38g9BdyDee07IY00" target="_blank" rel="noopener noreferrer" class="donate-btn">Donate</a>
+    </div>
+
+  </div>
+
+  <!-- Install modal -->
+  <div class="install-modal" id="install-modal" role="dialog" aria-modal="true" aria-label="Install instructions">
+    <div class="install-modal-box">
+      <button class="install-modal-close" id="install-modal-close" aria-label="Close">✕</button>
+      <div class="install-icon">📻</div>
+      <h2 class="install-title">Add to Home Screen</h2>
+      <p class="install-subtitle">Listen like a native app — no browser chrome, full screen.</p>
+      <div class="install-steps" id="install-steps"><!-- filled by JS --></div>
+    </div>
+  </div>
+
+  <script src="radio.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>

@@ -1,0 +1,984 @@
+/* ================================================
+   Maritzaida Radio — Stylesheet
+   Aesthetic: Teenage Engineering × Braun × 1958
+   ================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --page-bg:       #0a0906;
+  --radio-body:    #38301e;
+  --radio-dark:    #241f0e;
+  --radio-surface: #4a4228;
+  --freq-bg:       #f0e8d2;
+  --freq-ink:      #28200f;
+  --freq-ink-dim:  #7a6a48;
+  --amber:         #d4891a;
+  --amber-dim:     rgba(212, 137, 26, 0.25);
+  --amber-glow:    rgba(212, 137, 26, 0.55);
+  --amber-bright:  #ff9a3c;
+  --text-primary:  #f5eedc;
+  --text-dim:      #e0d0a8;
+  --text-label:    #f0e4c4;
+  --needle:        #c03820;
+  --vu-green:      #3a9050;
+  --vu-yellow:     #b89020;
+  --vu-red:        #c03820;
+  --border-subtle: rgba(255,255,255,0.04);
+  --shadow-dark:   rgba(0,0,0,0.8);
+
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-mono:  'Space Mono', 'Courier New', monospace;
+
+  --radius: 16px;
+}
+
+/* ================================================
+   Page
+   ================================================ */
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--page-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  font-family: var(--font-mono);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle radial vignette on page */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(40,30,15,0.3) 0%, rgba(0,0,0,0.6) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.scene {
+  width: 100%;
+  max-width: 840px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ================================================
+   Radio Chassis
+   ================================================ */
+
+.radio {
+  background: var(--radio-body);
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+
+  /* Layered shadow for physical depth */
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.05),
+    0 1px 0 rgba(255,255,255,0.07),
+    0 4px 8px rgba(0,0,0,0.4),
+    0 12px 30px rgba(0,0,0,0.5),
+    0 40px 80px rgba(0,0,0,0.4),
+    0 0 120px rgba(0,0,0,0.3);
+}
+
+/* Brushed surface texture overlay */
+.radio::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(255,255,255,0.012) 3px,
+    rgba(255,255,255,0.012) 4px
+  );
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* ================================================
+   Top Bar
+   ================================================ */
+
+.radio-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 22px;
+  background: var(--radio-dark);
+  border-bottom: 1px solid rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 10;
+}
+
+.brand {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  color: var(--text-dim);
+}
+
+.on-air {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.on-air.visible { opacity: 1; }
+
+.on-air-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #cc3015;
+  box-shadow: 0 0 6px #ff4020, 0 0 14px rgba(255,60,20,0.5);
+  animation: blink-slow 3s ease-in-out infinite;
+}
+
+.on-air-text {
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: #cc3015;
+}
+
+@keyframes blink-slow {
+  0%, 85%, 100% { opacity: 1; }
+  92% { opacity: 0.2; }
+}
+
+/* ================================================
+   Frequency Display
+   ================================================ */
+
+.freq-display {
+  background: var(--freq-bg);
+  padding: 14px 22px 11px;
+  border-bottom: 4px solid var(--radio-dark);
+  position: relative;
+
+  /* Inner shadow at top for depth */
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.12);
+}
+
+/* Scale canvas wrapper */
+.freq-scale-wrap {
+  position: relative;
+  height: 44px;
+  margin-bottom: 10px;
+}
+
+.freq-scale {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Moving needle */
+.freq-needle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  transition: left 1.1s cubic-bezier(0.25, 0.1, 0.1, 1.0);
+}
+
+.freq-needle::before {
+  /* top triangle pointer */
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid var(--needle);
+}
+
+.freq-needle::after {
+  /* needle line */
+  content: '';
+  position: absolute;
+  top: 4px;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1.5px;
+  background: linear-gradient(to bottom, var(--needle) 60%, rgba(192,56,32,0.2));
+}
+
+/* Station info row */
+.freq-info-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.freq-station {
+  font-family: var(--font-serif);
+  font-size: 1.55rem;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: var(--freq-ink);
+  line-height: 1;
+  transition: opacity 0.4s;
+}
+
+.freq-station.dim { opacity: 0; }
+
+.freq-readout {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.freq-number {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: #4a3e22;
+  letter-spacing: 0.05em;
+}
+
+.freq-band {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.25em;
+  color: var(--freq-ink-dim);
+}
+
+.freq-subtitle {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.78rem;
+  font-weight: 300;
+  color: #8a7a55;
+  margin-top: 3px;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+  min-height: 1.1rem;
+  transition: opacity 0.4s;
+}
+
+.freq-subtitle.dim { opacity: 0; }
+
+/* ================================================
+   Controls Row
+   ================================================ */
+
+.controls {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  padding: 22px 20px 20px;
+  gap: 0;
+  min-height: 160px;
+  position: relative;
+  z-index: 10;
+}
+
+/* ================================================
+   Vacuum Tubes (left panel)
+   ================================================ */
+
+.ctrl-tubes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding-right: 22px;
+  border-right: 1px solid rgba(0,0,0,0.4);
+}
+
+.tube {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.tube-body {
+  width: 26px;
+  height: 54px;
+  border-radius: 13px 13px 4px 4px;
+  background: linear-gradient(180deg, #0e1a0e 0%, #080e08 100%);
+  border: 1px solid rgba(0,0,0,0.7);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 1.6s ease, background 1.6s ease;
+
+  box-shadow:
+    inset 0 2px 4px rgba(0,0,0,0.4),
+    inset 0 -1px 3px rgba(0,0,0,0.3),
+    0 2px 6px rgba(0,0,0,0.4);
+}
+
+/* Glass reflection */
+.tube-highlight {
+  position: absolute;
+  top: 5px;
+  left: 4px;
+  width: 5px;
+  height: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, transparent 100%);
+  border-radius: 3px;
+}
+
+/* The amber glow inside */
+.tube-glow {
+  position: absolute;
+  inset: 2px;
+  border-radius: 11px 11px 3px 3px;
+  background: radial-gradient(ellipse at 50% 80%, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 100%);
+  transition: background 1.8s ease;
+}
+
+/* Lit state */
+.tube.lit .tube-body {
+  background: linear-gradient(180deg, #1a1000 0%, #0f0800 100%);
+  box-shadow:
+    inset 0 2px 4px rgba(0,0,0,0.2),
+    0 2px 6px rgba(0,0,0,0.4),
+    0 0 18px rgba(200,120,20,0.35),
+    0 0 40px rgba(160,90,10,0.15);
+}
+
+.tube.lit .tube-glow {
+  background: radial-gradient(ellipse at 50% 85%,
+    rgba(255,160,40,0.9) 0%,
+    rgba(220,130,20,0.6) 25%,
+    rgba(180,100,10,0.3) 50%,
+    rgba(0,0,0,0) 75%);
+  animation: tube-flicker 4s ease-in-out infinite;
+}
+
+@keyframes tube-flicker {
+  0%, 100% { opacity: 1; }
+  48% { opacity: 0.92; }
+  50% { opacity: 0.98; }
+  72% { opacity: 0.88; }
+  74% { opacity: 1; }
+}
+
+.tube-base {
+  width: 20px;
+  height: 7px;
+  background: linear-gradient(180deg, #36301e, #241e12);
+  border-radius: 0 0 3px 3px;
+  border: 1px solid rgba(0,0,0,0.5);
+  border-top: none;
+}
+
+/* ================================================
+   Knobs (center panel)
+   ================================================ */
+
+.ctrl-knobs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 0 24px;
+}
+
+.knob-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.knob-label {
+  font-size: 0.42rem;
+  letter-spacing: 0.35em;
+  color: var(--text-label);
+  text-transform: uppercase;
+  order: 2;
+}
+
+/* Surround for the arc SVG */
+.knob-surround {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.knob-surround-sm {
+  width: 80px;
+  height: 80px;
+}
+
+.knob-arc {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.knob-arc-sm {
+  /* smaller version */
+}
+
+/* The draggable knob */
+.knob {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  -webkit-user-select: none;
+  border-radius: 50%;
+  transition: filter 0.3s;
+
+  /* Physical shadow */
+  filter:
+    drop-shadow(0 6px 16px rgba(0,0,0,0.7))
+    drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+.knob:hover {
+  filter:
+    drop-shadow(0 6px 16px rgba(0,0,0,0.7))
+    drop-shadow(0 2px 4px rgba(0,0,0,0.5))
+    drop-shadow(0 0 10px rgba(212,137,26,0.12));
+}
+
+.knob:active { cursor: grabbing; }
+
+.knob svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.knob-sm {
+  width: 58px;
+  height: 58px;
+}
+
+/* The indicator group — rotated by JS via SVG transform attribute */
+
+/* ================================================
+   Right panel: VU + Power
+   ================================================ */
+
+.ctrl-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding-left: 22px;
+  border-left: 1px solid rgba(0,0,0,0.4);
+}
+
+/* VU Meters */
+.vu-pair {
+  display: flex;
+  gap: 9px;
+  align-items: flex-end;
+}
+
+.vu-meter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Analog VU meter */
+.vu-analog {
+  width: 72px;
+  display: block;
+}
+
+.vu-ch {
+  font-size: 0.42rem;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+}
+
+/* Power button */
+.power-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.power-ring {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #3e3828, #28221a);
+  border: 1px solid rgba(255,255,255,0.07);
+  color: var(--text-dim);
+  transition: all 0.3s ease;
+
+  box-shadow:
+    0 3px 8px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    inset 0 -1px 0 rgba(0,0,0,0.3);
+}
+
+.power-ring svg {
+  width: 18px;
+  height: 18px;
+}
+
+.power-btn:hover .power-ring {
+  color: var(--text-primary);
+  border-color: rgba(255,255,255,0.12);
+}
+
+.power-btn.on .power-ring {
+  background: linear-gradient(145deg, #2a1a04, #180f02);
+  border-color: rgba(212,137,26,0.4);
+  color: var(--amber);
+  box-shadow:
+    0 3px 8px rgba(0,0,0,0.5),
+    0 0 14px rgba(212,137,26,0.3),
+    inset 0 1px 0 rgba(255,200,80,0.1),
+    inset 0 -1px 0 rgba(0,0,0,0.3);
+}
+
+.power-label {
+  font-size: 0.42rem;
+  letter-spacing: 0.3em;
+  color: var(--text-dim);
+}
+
+/* ================================================
+   Footer
+   ================================================ */
+
+.radio-footer {
+  background: var(--radio-dark);
+  border-top: 1px solid rgba(0,0,0,0.5);
+  padding: 9px 22px;
+  text-align: center;
+  font-size: 0.44rem;
+  letter-spacing: 0.28em;
+  color: var(--text-dim);
+  opacity: 0.7;
+}
+
+/* ================================================
+   Power-off overlay — dims everything
+   ================================================ */
+
+.radio.off .controls {
+  opacity: 0.72;
+  transition: opacity 0.8s;
+}
+
+.radio.on .controls {
+  opacity: 1;
+  transition: opacity 1.2s;
+}
+
+/* ================================================
+   Static overlay (shown while tuning)
+   ================================================ */
+
+.freq-display::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(240, 232, 210, 0);
+  pointer-events: none;
+  transition: background 0.3s;
+}
+
+.freq-display.static::after {
+  background: rgba(240, 232, 210, 0.3);
+  animation: static-flicker 0.08s steps(1) infinite;
+}
+
+@keyframes static-flicker {
+  0%   { background: rgba(240,232,210,0.2); }
+  25%  { background: rgba(240,232,210,0.4); }
+  50%  { background: rgba(240,232,210,0.15); }
+  75%  { background: rgba(240,232,210,0.35); }
+  100% { background: rgba(240,232,210,0.25); }
+}
+
+/* ================================================
+   Pilot light (on tube panel)
+   ================================================ */
+
+.ctrl-tubes::after {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #1a1208;
+  border: 1px solid rgba(0,0,0,0.4);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
+  transition: background 1s, box-shadow 1s;
+}
+
+.radio.on .ctrl-tubes::after {
+  background: #d4891a;
+  box-shadow: 0 0 6px rgba(212,137,26,0.9), 0 0 14px rgba(212,137,26,0.4);
+  animation: pilot-breathe 3s ease-in-out infinite;
+}
+
+@keyframes pilot-breathe {
+  0%, 100% { box-shadow: 0 0 6px rgba(212,137,26,0.9), 0 0 14px rgba(212,137,26,0.4); }
+  50% { box-shadow: 0 0 8px rgba(212,137,26,1), 0 0 20px rgba(212,137,26,0.6); }
+}
+
+/* ================================================
+   Announcement strip
+   ================================================ */
+
+.announcement {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding: 11px 18px;
+  border: 1px solid rgba(212, 137, 26, 0.2);
+  border-radius: 8px;
+  background: rgba(212, 137, 26, 0.04);
+}
+
+.ann-left {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.ann-album {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: var(--amber);
+  letter-spacing: 0.02em;
+}
+
+.ann-date {
+  font-family: var(--font-mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.ann-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ann-link {
+  font-family: var(--font-mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-label);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.ann-link:hover { color: var(--amber); }
+
+.ann-divider {
+  color: var(--text-dim);
+  font-size: 0.55rem;
+  opacity: 0.5;
+}
+
+@media (max-width: 480px) {
+  .announcement {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+/* ================================================
+   Donate strip
+   ================================================ */
+
+.donate-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.donate-msg {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: var(--text-dim);
+  letter-spacing: 0.02em;
+}
+
+.donate-btn {
+  font-family: var(--font-mono);
+  font-size: 0.46rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--radio-body);
+  background: var(--amber);
+  padding: 7px 16px;
+  border-radius: 3px;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.donate-btn:hover {
+  background: var(--amber-bright);
+}
+
+/* ================================================
+   Install button + modal
+   ================================================ */
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.install-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 3px;
+  color: var(--text-dim);
+  opacity: 0.65;
+  transition: opacity 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.install-btn svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.install-btn-label {
+  font-family: var(--font-mono);
+  font-size: 0.42rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+.install-btn:hover {
+  opacity: 1;
+  color: var(--amber);
+}
+
+/* Modal backdrop */
+.install-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.install-modal.open {
+  display: flex;
+}
+
+.install-modal-box {
+  background: #2e2818;
+  border: 1px solid rgba(212,137,26,0.25);
+  border-radius: 14px;
+  padding: 32px 28px 28px;
+  max-width: 340px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+}
+
+.install-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 4px;
+  transition: color 0.2s;
+}
+
+.install-modal-close:hover { color: var(--text-primary); }
+
+.install-icon {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.install-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 300;
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 6px;
+  letter-spacing: 0.03em;
+}
+
+.install-subtitle {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  text-align: center;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.install-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.install-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.install-step-num {
+  font-family: var(--font-mono);
+  font-size: 0.45rem;
+  letter-spacing: 0.1em;
+  color: var(--amber);
+  background: rgba(212,137,26,0.12);
+  border: 1px solid rgba(212,137,26,0.3);
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.install-step-text {
+  font-family: var(--font-serif);
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  line-height: 1.55;
+  padding-top: 2px;
+}
+
+.install-step-text em {
+  font-style: normal;
+  color: var(--amber);
+}
+
+/* ================================================
+   Responsive
+   ================================================ */
+
+@media (max-width: 640px) {
+  .controls {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 22px;
+    padding: 20px 16px;
+  }
+
+  .ctrl-tubes {
+    flex-direction: row;
+    justify-content: center;
+    padding-right: 0;
+    padding-bottom: 16px;
+    border-right: none;
+    border-bottom: 1px solid rgba(0,0,0,0.4);
+  }
+
+  .ctrl-tubes::after {
+    align-self: center;
+  }
+
+  .ctrl-knobs {
+    padding: 0;
+    gap: 32px;
+  }
+
+  .ctrl-right {
+    flex-direction: row;
+    justify-content: center;
+    padding-left: 0;
+    border-left: none;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0,0,0,0.4);
+  }
+
+  .freq-station {
+    font-size: 1.2rem;
+  }
+
+  .knob-surround { width: 90px; height: 90px; }
+  .knob-surround-sm { width: 72px; height: 72px; }
+  .knob { width: 68px; height: 68px; }
+  .knob-sm { width: 50px; height: 50px; }
+}
+
+@media (max-width: 380px) {
+  .ctrl-knobs { gap: 20px; }
+  .knob-surround { width: 80px; height: 80px; }
+  .knob-surround-sm { width: 64px; height: 64px; }
+  .knob { width: 60px; height: 60px; }
+  .knob-sm { width: 44px; height: 44px; }
+}
