@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import ConditionalFooter from "@/components/ConditionalFooter";
+import PersistentRadio from "@/components/PersistentRadio";
 import { LanguageProvider } from "@/components/LanguageContext";
 import LanguageSplash from "@/components/LanguageSplash";
 
@@ -137,6 +138,7 @@ export default function RootLayout({
         <LanguageProvider>
           <LanguageSplash />
           <Nav />
+          <PersistentRadio />
           <main className="flex-1">{children}</main>
           <ConditionalFooter />
         </LanguageProvider>
