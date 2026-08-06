@@ -362,40 +362,49 @@ window.setRadioLang = applyLang;
 
 /* ------------------------------------------------
    Power on/off sequence
+   All timeouts are tracked so rapid toggling cancels
+   any in-flight sequence from the prior state.
    ------------------------------------------------ */
+let powerTimeouts = [];
+function clearPowerTimeouts() {
+  powerTimeouts.forEach(clearTimeout);
+  powerTimeouts = [];
+}
+function after(ms, fn) {
+  powerTimeouts.push(setTimeout(fn, ms));
+}
+
 function powerOn() {
+  clearPowerTimeouts();
   state.powered = true;
   radio.classList.remove('off');
   radio.classList.add('on');
   powerBtn.classList.add('on');
   playClick();
 
-  // Tubes warm up — staggered
-  setTimeout(() => tube1.classList.add('lit'), 300);
-  setTimeout(() => tube2.classList.add('lit'), 600);
+  after(300, () => tube1.classList.add('lit'));
+  after(600, () => tube2.classList.add('lit'));
+  after(900, () => onAir.classList.add('visible'));
 
-  // ON AIR light
-  setTimeout(() => onAir.classList.add('visible'), 900);
-
-  // Frequency display: needle sweeps in from right
-  setTimeout(() => {
+  after(700, () => {
     freqNeedle.style.transition = 'left 1.4s cubic-bezier(0.25, 0.1, 0.08, 1.0)';
     freqNeedle.style.left = (STATION_POS * 100) + '%';
-  }, 700);
+  });
 
-  // Static fades in while tuning
   startStatic();
-  setTimeout(() => setStaticVolume(0.04), 800);
+  after(800, () => { if (state.powered) setStaticVolume(0.04); });
 
-  // Station info appears after needle arrives
-  setTimeout(() => {
+  after(1900, () => {
+    if (!state.powered) return;
     freqNumber.textContent   = STATION.freq;
     freqStation.textContent  = STATION.name;
     freqSubtitle.textContent = STATION.subtitle[state.lang];
-  }, 1900);
+  });
 
-  // Start YouTube, fade out static
-  setTimeout(() => {
+  after(2000, () => { if (state.powered) startVU(); });
+
+  after(2200, () => {
+    if (!state.powered) return;
     if (ytReady && ytPlayer) {
       ytPlayer.setVolume(0);
       const pl = ytPlayer.getPlaylist();
@@ -404,64 +413,52 @@ function powerOn() {
       } else {
         ytPlayer.playVideo();
       }
-      // Ramp volume up
       let vol = 0;
       const ramp = setInterval(() => {
+        if (!state.powered) { ytPlayer.setVolume(0); ytPlayer.pauseVideo(); clearInterval(ramp); return; }
         vol = Math.min(state.volume, vol + 3);
         ytPlayer.setVolume(vol);
         if (vol >= state.volume) clearInterval(ramp);
       }, 80);
     }
     setStaticVolume(0);
-  }, 2200);
-
-  // VU meters start
-  setTimeout(startVU, 2000);
+  });
 }
 
 function powerOff() {
+  clearPowerTimeouts();
   state.powered = false;
   radio.classList.remove('on');
   radio.classList.add('off');
   powerBtn.classList.remove('on');
   playClick();
 
-  // Fade out YouTube
+  // Immediately cut YouTube — no fade that can race with a new powerOn
   if (ytReady && ytPlayer) {
-    let vol = state.volume;
-    const fade = setInterval(() => {
-      vol = Math.max(0, vol - 8);
-      ytPlayer.setVolume(vol);
-      if (vol <= 0) { ytPlayer.pauseVideo(); clearInterval(fade); }
-    }, 60);
+    ytPlayer.setVolume(0);
+    ytPlayer.pauseVideo();
   }
 
-  // VU off immediately
   stopVU();
 
-  // Static blip as things shut down
-  setStaticVolume(0.05);
-  setTimeout(() => setStaticVolume(0), 300);
+  // Brief static blip then hard-stop the audio node
+  setStaticVolume(0.04);
+  setTimeout(() => stopStatic(), 220);
 
-  // Tubes cool
-  setTimeout(() => tube1.classList.remove('lit'), 200);
-  setTimeout(() => tube2.classList.remove('lit'), 500);
+  after(100, () => onAir.classList.remove('visible'));
+  after(200, () => tube1.classList.remove('lit'));
+  after(500, () => tube2.classList.remove('lit'));
 
-  // ON AIR off
-  setTimeout(() => onAir.classList.remove('visible'), 100);
-
-  // Clear station display
-  setTimeout(() => {
+  after(300, () => {
     freqStation.textContent  = '— — —';
     freqSubtitle.textContent = ' ';
     freqNumber.textContent   = '—.—';
-  }, 300);
+  });
 
-  // Needle sweeps back to far right (signal lost)
-  setTimeout(() => {
+  after(100, () => {
     freqNeedle.style.transition = 'left 0.6s ease-in';
     freqNeedle.style.left = '90%';
-  }, 100);
+  });
 }
 
 powerBtn.addEventListener('click', () => {
