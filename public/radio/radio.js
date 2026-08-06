@@ -194,6 +194,46 @@ function startStatic() {
   } catch (e) { /* ignore */ }
 }
 
+/* ------------------------------------------------
+   Background-audio keepalive
+   Chrome suspends background tabs unless they have
+   a native <audio> element actively playing. YouTube
+   is inside a cross-origin nested iframe so Chrome
+   doesn't count it. We wire a near-silent oscillator
+   through createMediaStreamDestination → <audio> so
+   Chrome sees real audio on this page and keeps the
+   whole tab alive when the user presses Home.
+   ------------------------------------------------ */
+let _keepalive = null;
+
+function startKeepalive() {
+  if (_keepalive) return;
+  try {
+    const ctx = getAudioCtx();
+    const dest = ctx.createMediaStreamDestination();
+    const osc  = ctx.createOscillator();
+    const gain = ctx.createGain();
+    gain.gain.value = 0.00001; // inaudible
+    osc.connect(gain);
+    gain.connect(dest);
+    osc.start();
+
+    const audio = document.createElement('audio');
+    audio.srcObject = dest.stream;
+    audio.loop = true;
+    audio.play().catch(() => {});
+
+    _keepalive = { audio, osc };
+  } catch (e) { /* ignore */ }
+}
+
+function stopKeepalive() {
+  if (!_keepalive) return;
+  try { _keepalive.osc.stop(); } catch (_) {}
+  try { _keepalive.audio.pause(); _keepalive.audio.srcObject = null; } catch (_) {}
+  _keepalive = null;
+}
+
 function setStaticVolume(v) {
   if (!state.staticGain) return;
   try {
@@ -485,6 +525,7 @@ function powerOff() {
     ytPlayer.setVolume(0);
     ytPlayer.pauseVideo();
   }
+  stopKeepalive();
   clearMediaSession();
 
   stopVU();
@@ -518,8 +559,10 @@ powerBtn.addEventListener('click', () => {
     // YouTube player here before handing off. The after(2200) call then just seeks to a
     // random track (the player is already running at volume 0).
     if (ytReady && ytPlayer) { ytPlayer.setVolume(0); ytPlayer.playVideo(); }
-    // Also resume AudioContext in case iOS suspended it between interactions.
+    // Resume AudioContext and start the background keepalive audio element
+    // (must happen synchronously in the click handler so audio.play() succeeds).
     if (state.audioCtx) state.audioCtx.resume().catch(() => {});
+    startKeepalive();
     window.__radioIosHint?.();
     powerOn();
   }
