@@ -10,16 +10,28 @@
    ------------------------------------------------ */
 const STATIONS = [
   {
-    id:       'radio-bohemia',
-    name:     'MARITZAIDA RADIO',
-    subtitle: { en: 'Música Bohemia & Bolero', es: 'Música Bohemia & Bolero' },
-    freq:     '96.7',
-    band:     'FM',
+    id:         'radio-bohemia',
+    name:       'MARITZAIDA RADIO',
+    subtitle:   { en: 'Música Bohemia & Bolero', es: 'Música Bohemia & Bolero' },
+    freq:       96.7,
+    band:       'FM',
     playlistId: 'PLNvW9cMNydmw',
-  }
+    knobVal:    50,   // tuning knob position (0–100) when locked on this station
+    plHalf:     0,    // start playlist from this fraction in (0 = beginning)
+  },
+  {
+    id:         'noche-bohemia',
+    name:       'NOCHE BOHEMIA',
+    subtitle:   { en: 'Una Selección Especial', es: 'Una Selección Especial' },
+    freq:       103.5,
+    band:       'FM',
+    playlistId: 'PLNvW9cMNydmw',
+    knobVal:    84,   // 96.7 + ((84-50)/50)*10 = 103.5 MHz
+    plHalf:     0.5,  // start from second half of playlist
+  },
 ];
 
-const STATION = STATIONS[0];
+const STATION = STATIONS[0];  // kept for YT player init
 
 /* ------------------------------------------------
    Frequency scale config
@@ -27,8 +39,6 @@ const STATION = STATIONS[0];
 const FREQ_MIN   = 86.5;
 const FREQ_MAX   = 109.5;
 const FREQ_RANGE = FREQ_MAX - FREQ_MIN;
-const STATION_FREQ = parseFloat(STATION.freq); // 96.7
-const STATION_POS  = (STATION_FREQ - FREQ_MIN) / FREQ_RANGE; // ~0.435
 
 /* ------------------------------------------------
    State
@@ -63,15 +73,16 @@ const TRANSLATIONS = {
 };
 
 const state = {
-  powered:     false,
-  tuning:      false,
-  tuneOffset:  0,      // -1 to 1; 0 = on station
-  volume:      75,     // 0–100
-  lang:        'en',
-  vuAnimId:    null,
-  staticNode:  null,
-  staticGain:  null,
-  audioCtx:    null,
+  powered:        false,
+  tuning:         false,
+  tuneOffset:     0,      // -1 to 1; 0 = on station
+  volume:         75,     // 0–100
+  lang:           'en',
+  currentStation: STATIONS[0],
+  vuAnimId:       null,
+  staticNode:     null,
+  staticGain:     null,
+  audioCtx:       null,
 };
 
 /* ------------------------------------------------
@@ -354,8 +365,9 @@ function applyLang(lang) {
     if (t[key] !== undefined) el.textContent = t[key];
   });
   if (state.powered) {
-    freqSubtitle.textContent = STATION.subtitle[state.lang];
+    freqSubtitle.textContent = state.currentStation.subtitle[state.lang];
   }
+  saveState();
 }
 
 window.setRadioLang = applyLang;
@@ -387,8 +399,9 @@ function powerOn() {
   after(900, () => onAir.classList.add('visible'));
 
   after(700, () => {
+    const stationPos = (state.currentStation.freq - FREQ_MIN) / FREQ_RANGE;
     freqNeedle.style.transition = 'left 1.4s cubic-bezier(0.25, 0.1, 0.08, 1.0)';
-    freqNeedle.style.left = (STATION_POS * 100) + '%';
+    freqNeedle.style.left = (stationPos * 100) + '%';
   });
 
   startStatic();
@@ -396,22 +409,23 @@ function powerOn() {
 
   after(1900, () => {
     if (!state.powered) return;
-    freqNumber.textContent   = STATION.freq;
-    freqStation.textContent  = STATION.name;
-    freqSubtitle.textContent = STATION.subtitle[state.lang];
+    freqNumber.textContent   = state.currentStation.freq.toFixed(1);
+    freqStation.textContent  = state.currentStation.name;
+    freqSubtitle.textContent = state.currentStation.subtitle[state.lang];
   });
 
   after(2000, () => { if (state.powered) startVU(); });
 
+  // Jump to a random track within the station's playlist range, then ramp volume.
+  // Note: ytPlayer.playVideo() was already called synchronously in the click handler
+  // (iOS requires media play within a user-gesture; the setTimeout breaks that chain).
   after(2200, () => {
     if (!state.powered) return;
     if (ytReady && ytPlayer) {
-      ytPlayer.setVolume(0);
       const pl = ytPlayer.getPlaylist();
       if (pl && pl.length > 1) {
-        ytPlayer.playVideoAt(Math.floor(Math.random() * pl.length));
-      } else {
-        ytPlayer.playVideo();
+        const min = Math.floor(state.currentStation.plHalf * pl.length);
+        ytPlayer.playVideoAt(min + Math.floor(Math.random() * (pl.length - min)));
       }
       let vol = 0;
       const ramp = setInterval(() => {
@@ -462,7 +476,19 @@ function powerOff() {
 }
 
 powerBtn.addEventListener('click', () => {
-  if (state.powered) powerOff(); else powerOn();
+  if (state.powered) {
+    powerOff();
+  } else {
+    // iOS Safari requires media.play() to be called synchronously within a user-gesture
+    // handler. The 2.2 s setTimeout in powerOn() breaks that guarantee, so we kick the
+    // YouTube player here before handing off. The after(2200) call then just seeks to a
+    // random track (the player is already running at volume 0).
+    if (ytReady && ytPlayer) { ytPlayer.setVolume(0); ytPlayer.playVideo(); }
+    // Also resume AudioContext in case iOS suspended it between interactions.
+    if (state.audioCtx) state.audioCtx.resume().catch(() => {});
+    window.__radioIosHint?.();
+    powerOn();
+  }
 });
 
 /* ------------------------------------------------
@@ -565,11 +591,17 @@ const tuning = new KnobControl(tuningKnob, {
   defaultVal: 50,
   onChange: (val) => {
     if (!state.powered) return;
-    const offset = (val - 50) / 50; // -1 to 1
+    // Offset is relative to whichever station is nearest on the knob scale.
+    // The two stations are placed so their frequency maps are perfectly continuous
+    // at the midpoint — no discontinuity when the "nearest" switches.
+    const nearest = STATIONS.reduce((best, s) =>
+      Math.abs(val - s.knobVal) < Math.abs(val - best.knobVal) ? s : best
+    );
+    const offset = (val - nearest.knobVal) / 50;
     state.tuneOffset = offset;
     updateTuningArc(val);
 
-    const freq  = STATION_FREQ + offset * 10;
+    const freq  = nearest.freq + offset * 10;
     const disp  = freq.toFixed(1);
     freqNumber.textContent = disp;
 
@@ -598,10 +630,14 @@ const tuning = new KnobControl(tuningKnob, {
     }
   },
   onDragEnd: () => {
-    // Spring back to station
     if (!state.powered) return;
-    const startVal = tuning.value;
-    const targetVal = 50;
+    // Snap to whichever station the knob is nearest to
+    const target = STATIONS.reduce((best, s) =>
+      Math.abs(tuning.value - s.knobVal) < Math.abs(tuning.value - best.knobVal) ? s : best
+    );
+    const switchingStation = target !== state.currentStation;
+    const startVal  = tuning.value;
+    const targetVal = target.knobVal;
     const startTime = performance.now();
     const duration  = 700;
 
@@ -610,13 +646,14 @@ const tuning = new KnobControl(tuningKnob, {
       const et = 1 - Math.pow(1 - t, 3);
       const v  = startVal + (targetVal - startVal) * et;
       tuning.setValue(v);
-      state.tuneOffset = (v - 50) / 50;
+      const offset = (v - target.knobVal) / 50;
+      state.tuneOffset = offset;
 
-      const freq = STATION_FREQ + state.tuneOffset * 10;
+      const freq = target.freq + offset * 10;
       freqNumber.textContent = freq.toFixed(1);
       setNeedle(freq, false);
 
-      const absOff = Math.abs(state.tuneOffset);
+      const absOff = Math.abs(offset);
       setStaticVolume(absOff * 0.12);
       if (ytReady && ytPlayer) {
         const ytVol = Math.round(state.volume * Math.max(0, 1 - absOff * 2.5));
@@ -624,20 +661,40 @@ const tuning = new KnobControl(tuningKnob, {
       }
 
       if (absOff < 0.05) {
+        freqStation.textContent  = target.name;
+        freqSubtitle.textContent = target.subtitle[state.lang];
         freqStation.classList.remove('dim');
         freqSubtitle.classList.remove('dim');
       }
 
-      if (t < 1) requestAnimationFrame(spring);
-      else {
-        // Locked on
-        tuning.setValue(50);
-        setNeedle(STATION_FREQ, true);
-        freqNumber.textContent = STATION.freq;
+      if (t < 1) {
+        requestAnimationFrame(spring);
+      } else {
+        // Locked on to target station
+        tuning.setValue(targetVal);
+        state.tuneOffset = 0;
+        state.currentStation = target;
+        setNeedle(target.freq, true);
+        freqNumber.textContent  = target.freq.toFixed(1);
+        freqStation.textContent = target.name;
+        freqSubtitle.textContent = target.subtitle[state.lang];
         setStaticVolume(0);
-        if (ytReady && ytPlayer) ytPlayer.setVolume(state.volume);
         freqStation.classList.remove('dim');
         freqSubtitle.classList.remove('dim');
+
+        if (switchingStation && ytReady && ytPlayer) {
+          // Tune to the new channel's playlist range
+          const pl = ytPlayer.getPlaylist();
+          if (pl && pl.length > 1) {
+            const min = Math.floor(target.plHalf * pl.length);
+            ytPlayer.playVideoAt(min + Math.floor(Math.random() * (pl.length - min)));
+          } else {
+            ytPlayer.playVideo();
+          }
+        }
+        if (ytReady && ytPlayer) ytPlayer.setVolume(state.volume);
+
+        saveState();
       }
     }
     requestAnimationFrame(spring);
@@ -652,11 +709,79 @@ const volume = new KnobControlSm(volumeKnob, {
     if (ytReady && ytPlayer && state.powered && state.tuneOffset === 0) {
       ytPlayer.setVolume(Math.round(val));
     }
+    saveState();
   }
 });
 
 // Init volume arc
 updateVolumeArc(75);
+
+/* ------------------------------------------------
+   Session state — save/restore volume, station, lang
+   so returning to the page remembers your settings.
+   Note: iOS blocks autoplay without a gesture, so
+   we only restore settings, not the powered state.
+   ------------------------------------------------ */
+function saveState() {
+  try {
+    sessionStorage.setItem('mrState', JSON.stringify({
+      volume:     Math.round(state.volume),
+      stationIdx: STATIONS.indexOf(state.currentStation),
+      lang:       state.lang,
+    }));
+  } catch (e) { /* ignore quota errors */ }
+}
+
+function loadState() {
+  try {
+    const saved = JSON.parse(sessionStorage.getItem('mrState'));
+    if (!saved) return;
+    if (typeof saved.volume === 'number') {
+      state.volume = saved.volume;
+      volume.setValue(saved.volume);
+      updateVolumeArc(saved.volume);
+    }
+    if (typeof saved.stationIdx === 'number' && STATIONS[saved.stationIdx]) {
+      state.currentStation = STATIONS[saved.stationIdx];
+      // Snap tuning knob to restored station position
+      tuning.setValue(state.currentStation.knobVal);
+    }
+    if (saved.lang && TRANSLATIONS[saved.lang]) {
+      applyLang(saved.lang);
+    }
+  } catch (e) { /* ignore */ }
+}
+
+/* ------------------------------------------------
+   iOS silent-mode hint
+   Shows once per session when the radio first powers
+   on — iOS silent switch mutes all audio on the web.
+   ------------------------------------------------ */
+(function () {
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+    (navigator.maxTouchPoints > 1 && /macintosh/i.test(navigator.userAgent));
+  if (!isIOS) return;
+
+  let shown = false;
+  window.__radioIosHint = function () {
+    if (shown || sessionStorage.getItem('mrHintDone')) return;
+    shown = true;
+    sessionStorage.setItem('mrHintDone', '1');
+
+    const hint = document.createElement('div');
+    hint.style.cssText = [
+      'position:fixed', 'bottom:80px', 'left:50%', 'transform:translateX(-50%)',
+      'background:rgba(20,16,8,0.92)', 'color:#f0e4c4', 'font-size:11px',
+      'letter-spacing:.06em', 'padding:10px 18px', 'border-radius:4px',
+      'border:1px solid rgba(201,160,74,.3)', 'pointer-events:none',
+      'z-index:9999', 'white-space:nowrap', 'transition:opacity .4s',
+    ].join(';');
+    hint.textContent = '🔕  No audio? Check that Silent Mode is off.';
+    document.body.appendChild(hint);
+    setTimeout(() => { hint.style.opacity = '0'; }, 4000);
+    setTimeout(() => hint.remove(), 4500);
+  };
+})();
 
 /* ------------------------------------------------
    Init
@@ -665,6 +790,9 @@ function init() {
   // Init needle positions at minimum
   setNeedleAngle(vuL, -50);
   setNeedleAngle(vuR, -50);
+
+  // Restore saved settings (volume, station, language) from last visit
+  loadState();
 
   // Draw frequency scale (after layout)
   requestAnimationFrame(() => {
