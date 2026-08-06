@@ -386,6 +386,38 @@ function after(ms, fn) {
   powerTimeouts.push(setTimeout(fn, ms));
 }
 
+/* ------------------------------------------------
+   Media Session API
+   Tells Android/iOS that this page is playing media
+   so the OS keeps audio alive when the app is
+   backgrounded and shows lock-screen controls.
+   ------------------------------------------------ */
+function setupMediaSession() {
+  if (!('mediaSession' in navigator)) return;
+  const s = state.currentStation;
+  navigator.mediaSession.metadata = new MediaMetadata({
+    title:  s.name,
+    artist: 'Maritzaida',
+    album:  s.subtitle[state.lang],
+    artwork: [
+      { src: 'https://www.maritzaida.com/photos/20250828-SSP04706.jpg',
+        sizes: '1200x630', type: 'image/jpeg' },
+    ],
+  });
+  navigator.mediaSession.playbackState = 'playing';
+  navigator.mediaSession.setActionHandler('play',  () => { if (!state.powered) powerBtn.click(); });
+  navigator.mediaSession.setActionHandler('pause', () => { if (state.powered)  powerBtn.click(); });
+  navigator.mediaSession.setActionHandler('stop',  () => { if (state.powered)  powerBtn.click(); });
+}
+
+function clearMediaSession() {
+  if (!('mediaSession' in navigator)) return;
+  navigator.mediaSession.playbackState = 'paused';
+  ['play', 'pause', 'stop'].forEach(a => {
+    try { navigator.mediaSession.setActionHandler(a, null); } catch (_) {}
+  });
+}
+
 function powerOn() {
   clearPowerTimeouts();
   state.powered = true;
@@ -436,6 +468,7 @@ function powerOn() {
       }, 80);
     }
     setStaticVolume(0);
+    setupMediaSession();
   });
 }
 
@@ -452,6 +485,7 @@ function powerOff() {
     ytPlayer.setVolume(0);
     ytPlayer.pauseVideo();
   }
+  clearMediaSession();
 
   stopVU();
 
