@@ -7,6 +7,12 @@ import { useLang } from "@/components/LanguageContext";
 
 const pressItems = [
   {
+    title: "Continuidad del trabajo musical de Sylvia Rexach",
+    pub: "Fundación Nacional para la Cultura Popular",
+    year: "2026",
+    href: "https://prpop.org/2026/08/continuidad-del-trabajo-musical-de-sylvia-rexach/",
+  },
+  {
     title: "Artist In Focus: Maritzaida",
     pub: "Arts Council of Greater Greensboro",
     year: "2026",
