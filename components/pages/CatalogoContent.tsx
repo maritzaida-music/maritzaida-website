@@ -51,12 +51,6 @@ const catalog: { album: string; year: string; youtube?: string; comingSoon?: str
       "Había Una Vez", "Nave Sin Rumbo", "Olas y Arenas",
     ],
   },
-  {
-    album: "Lamento de Navidad",
-    year: "2024",
-    youtube: "https://www.youtube.com/playlist?list=OLAK5uy_mTomZZxNV6IrSmzuVwFg4WDxIc7F1gXA0",
-    songs: ["Lamento de Navidad"],
-  },
 ];
 
 export default function CatalogoContent() {
