@@ -57,6 +57,7 @@ const pressItems = [
 ];
 
 const discography = [
+  { year: "2026", title: "Radio Bohemia Volumen II", type: "LP", note: "Coming October 2026" },
   { year: "2026", title: "Una Noche (En Vivo)", type: "Live Album", note: "Live Boleros Clásicos repertoire" },
   { year: "2025", title: "Radio Bohemia Volumen I", type: "LP", note: "Feat. Sharon Riley Rexach" },
   { year: "2025", title: "El Otro Camino", type: "EP", note: "Restores 1959 film score compositions" },
@@ -77,7 +78,7 @@ export default function EpkContent() {
     { label: t("epk.overview.since"), value: "2023" },
     { label: t("epk.overview.specialty"), value: "Sylvia Rexach & Tutti Umpierre Repertoire" },
     { label: t("epk.overview.instagram"), value: "@maritzaidamusic" },
-    { label: t("epk.overview.releases"), value: "7 albums / EPs (2023–2026)" },
+    { label: t("epk.overview.releases"), value: "8 albums / EPs (2023–2026)" },
   ];
 
   return (
