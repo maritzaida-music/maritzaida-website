@@ -177,7 +177,17 @@ export default function CatalogoContent() {
         </div>
 
         {/* CTA */}
-        <div className="mt-20 pt-8 border-t flex flex-wrap gap-4" style={{ borderColor: "var(--border)" }}>
+        {/* Additional songs note */}
+        <div className="mt-16 pt-8 border-t" style={{ borderColor: "var(--border)" }}>
+          <p className="text-xs tracking-[0.3em] uppercase mb-3" style={{ color: "var(--gold)", fontFamily: "var(--font-inter)" }}>
+            {t("catalogo.notes.heading")}
+          </p>
+          <p className="text-sm leading-relaxed max-w-3xl" style={{ color: "var(--text-muted)", fontWeight: 300 }}>
+            {t("catalogo.notes.text")}
+          </p>
+        </div>
+
+        <div className="mt-12 pt-8 border-t flex flex-wrap gap-4" style={{ borderColor: "var(--border)" }}>
           <Link href="/music" className="px-8 py-3 text-xs tracking-widest uppercase font-medium" style={{ background: "var(--gold)", color: "var(--bg)", letterSpacing: "0.15em" }}>
             {t("catalogo.cta.discography")}
           </Link>

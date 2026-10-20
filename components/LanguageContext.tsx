@@ -181,6 +181,8 @@ const translations: Record<Lang, Record<string, string>> = {
     "catalogo.listen": "Listen on YouTube ↗",
     "catalogo.cta.discography": "Full Discography",
     "catalogo.cta.about": "About Maritzaida",
+    "catalogo.notes.heading": "A Note on Three Additional Songs",
+    "catalogo.notes.text": "Three songs appear across the Radio Bohemia recordings but are not listed above. \"Princesa,\" composed by Sylvia Eileen \"Chivín\" Riley, is performed as a guitar instrumental during segments of the Radio Bohemia albums. An untitled instrumental by Sylvia Rexach and Tutti Umpierre serves as the opening theme in the Introducción on Radio Bohemia. During Alina Isabel Lamboy Díaz's segment on Radio Bohemia Volumen II, a sample of \"I Like to Know\" is heard — a song sharing the melody of Tutti Umpierre's \"Más de Una Vez,\" for which Sylvia wrote her own English lyrics.",
 
     // Sharon Riley Rexach page
     "sharon.label": "A Lost Treasure Returns",
@@ -380,6 +382,8 @@ const translations: Record<Lang, Record<string, string>> = {
     "catalogo.listen": "Escuchar en YouTube ↗",
     "catalogo.cta.discography": "Discografía Completa",
     "catalogo.cta.about": "Acerca de Maritzaida",
+    "catalogo.notes.heading": "Nota sobre Tres Canciones Adicionales",
+    "catalogo.notes.text": "Tres canciones aparecen en las grabaciones de Radio Bohemia pero no están listadas arriba. \"Princesa,\" compuesta por Sylvia Eileen \"Chivín\" Riley, se interpreta como un instrumental de guitarra en algunos segmentos de los álbumes de Radio Bohemia. Un instrumental sin título de Sylvia Rexach y Tutti Umpierre sirve como tema de apertura en la Introducción de Radio Bohemia. Durante el segmento de Alina Isabel Lamboy Díaz en Radio Bohemia Volumen II, se escucha una muestra de \"I Like to Know\" — una canción que comparte la melodía de \"Más de Una Vez\" de Tutti Umpierre, para la cual Sylvia escribió su propia letra en inglés.",
 
     // Sharon Riley Rexach page
     "sharon.label": "Un Tesoro Perdido Regresa",
