@@ -8,7 +8,7 @@ const catalog: { album: string; year: string; youtube?: string; comingSoon?: str
   {
     album: "Radio Bohemia Volumen II",
     year: "2026",
-    comingSoon: "Coming Fall 2026",
+    youtube: "https://www.youtube.com/playlist?list=OLAK5uy_llFEJpXLZ5rlhs-3reMZeUIcGlPRODpYY",
     songs: [
       "Yo Era Una Flor", "Mi Regalo", "Una Vez", "Costa de Oro",
       "Despertar de Amor", "Novela de Amor", "¿Qué Has Hecho?", "Lamento de Navidad",
