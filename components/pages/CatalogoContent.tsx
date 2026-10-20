@@ -15,8 +15,8 @@ const catalog: { album: string; year: string; youtube?: string; comingSoon?: str
       "Año Nuevo", "Inolvidable Tú", "Lloraré Mañana", "Senda de Flores",
       "Más de Una Vez", "Balada de La Niña y El Río (Veray/Rexach)",
       "El Amor Es Una Cruz (Hernández/Rexach)", "No Iré", "Siempre Mi Amor", "Realidad",
-      "Nuestra Luna (Featuring Jaime Lamboy)", "Y Entonces (Featuring Jaime Lamboy)",
-      "Nave Sin Rumbo (Featuring Jaime Lamboy)",
+      "Nuestra Luna (feat. Jaime Lamboy)", "Y Entonces (feat. Jaime Lamboy)",
+      "Nave Sin Rumbo (feat. Jaime Lamboy)",
     ],
   },
   {
