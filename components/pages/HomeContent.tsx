@@ -10,8 +10,7 @@ const featuredAlbums = [
     subtitle: "La Música de Sylvia Rexach y Tutti Umpierre",
     year: "2026",
     image: "/albums/radio-bohemia-vol-2.png",
-    youtube: null,
-    comingSoon: "October 20th, 2026",
+    youtube: "https://www.youtube.com/playlist?list=OLAK5uy_llFEJpXLZ5rlhs-3reMZeUIcGlPRODpYY",
     description: {
       en: "The continuation of the Radio Bohemia series — four generations of the Rexach family united in an effort to preserve Puerto Rican Música Bohemia.",
       es: "La continuación de la serie Radio Bohemia — cuatro generaciones de la familia Rexach unidas para preservar la Música Bohemia Puertorriqueña.",
