@@ -164,36 +164,15 @@ export default function HomeContent() {
                     <p className="text-sm leading-snug mb-3" style={{ color: "white" }}>
                       {album.description[lang]}
                     </p>
-                    {album.comingSoon ? (
-                      <div className="flex flex-wrap gap-3">
-                        <a
-                          href="https://orcd.co/radiobohemiav2"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="px-4 py-2 text-xs tracking-widest uppercase font-medium transition-opacity hover:opacity-80"
-                          style={{ background: "var(--gold)", color: "var(--bg)", letterSpacing: "0.15em", fontFamily: "var(--font-inter)" }}
-                        >
-                          Pre-Save
-                        </a>
-                        <a
-                          href="/store"
-                          className="px-4 py-2 text-xs tracking-widest uppercase font-medium transition-opacity hover:opacity-80"
-                          style={{ border: "1px solid var(--gold)", color: "var(--gold)", letterSpacing: "0.15em", fontFamily: "var(--font-inter)" }}
-                        >
-                          Pre-Order CD
-                        </a>
-                      </div>
-                    ) : (
-                      <a
-                        href={album.youtube!}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-xs tracking-widest uppercase font-medium"
-                        style={{ color: "var(--gold)", letterSpacing: "0.15em" }}
-                      >
-                        {t("home.listen")}
-                      </a>
-                    )}
+                    <a
+                      href={album.youtube}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs tracking-widest uppercase font-medium"
+                      style={{ color: "var(--gold)", letterSpacing: "0.15em" }}
+                    >
+                      {t("home.listen")}
+                    </a>
                   </div>
                 </div>
               </div>
