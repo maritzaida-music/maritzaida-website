@@ -21,8 +21,6 @@ const products: {
     year: "2026",
     image: "/albums/radio-bohemia-vol-2.png",
     price: "$25",
-    preOrder: true,
-    preOrderNote: "Ships Mid-October 2026",
   },
   {
     id: "radio-bohemia-vol-1",

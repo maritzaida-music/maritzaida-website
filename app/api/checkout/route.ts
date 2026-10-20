@@ -30,7 +30,7 @@ const products: Record<string, { name: string; price: number; image: string }> =
     image: `${BASE_URL}/albums/radio-bohemia-vol-1.png`,
   },
   "radio-bohemia-vol-2": {
-    name: "Radio Bohemia Volumen II (Pre-Order)",
+    name: "Radio Bohemia Volumen II",
     price: 2500,
     image: `${BASE_URL}/albums/radio-bohemia-vol-2.png`,
   },
