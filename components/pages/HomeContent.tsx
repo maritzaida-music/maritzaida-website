@@ -184,6 +184,15 @@ export default function HomeContent() {
                 {album.subtitle && (
                   <p className="text-xs mt-1" style={{ color: "var(--text-muted)" }}>{album.subtitle}</p>
                 )}
+                <a
+                  href={album.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block mt-3 text-xs tracking-widest uppercase hover-gold transition-opacity hover:opacity-70"
+                  style={{ color: "var(--gold)", letterSpacing: "0.15em", fontFamily: "var(--font-inter)" }}
+                >
+                  {t("home.listen")} ↗
+                </a>
               </div>
             </article>
           ))}
