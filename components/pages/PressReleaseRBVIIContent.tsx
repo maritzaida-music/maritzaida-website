@@ -9,8 +9,8 @@ const content = {
     forImmediateRelease: "For Immediate Release",
     headline: "One Family. Four Generations. One Mission to Preserve Puerto Rican Música Bohemia.",
     subheadline: "Released on the 65th anniversary of Sylvia Rexach's death, Radio Bohemia Volumen II brings together her family and musicians Maritzaida and AJ Weibe in an ambitious effort to preserve the authentic sound of Puerto Rican Música Bohemia.",
-    presave: "Pre-Save the Album",
-    preorder: "Pre-Order the CD",
+    presave: "Listen on YouTube",
+    preorder: "Order CD",
     releaseDate: "October 20, 2026",
     releaseDateLabel: "Release Date",
     label: "SideHustle Records",
@@ -104,8 +104,8 @@ const content = {
     forImmediateRelease: "Para Publicación Inmediata",
     headline: "Una Familia. Cuatro Generaciones. Una Misión Para Preservar la Música Bohemia Puertorriqueña.",
     subheadline: "Publicado en el 65° aniversario de la muerte de Sylvia Rexach, Radio Bohemia Volumen II reúne a su familia y a los músicos Maritzaida y AJ Weibe en un ambicioso esfuerzo por preservar el sonido auténtico de la Música Bohemia Puertorriqueña.",
-    presave: "Pre-guardar el Álbum",
-    preorder: "Pre-ordenar el CD",
+    presave: "Escuchar en YouTube",
+    preorder: "Ordenar CD",
     releaseDate: "20 de octubre de 2026",
     releaseDateLabel: "Fecha de lanzamiento",
     label: "SideHustle Records",
@@ -296,7 +296,7 @@ export default function PressReleaseRBVIIContent() {
 
           <div className="flex flex-wrap gap-4 mb-10">
             <a
-              href="https://orcd.co/radiobohemiav2"
+              href="https://www.youtube.com/playlist?list=OLAK5uy_llFEJpXLZ5rlhs-3reMZeUIcGlPRODpYY"
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-3 text-xs tracking-widest uppercase font-medium transition-opacity hover:opacity-80"
@@ -505,14 +505,14 @@ export default function PressReleaseRBVIIContent() {
         <p className="text-base leading-relaxed font-medium" style={{ color: "var(--text-primary)" }}>{c.s6p4}</p>
 
 
-        {/* Pre-save / Pre-order CTA */}
-        <div id="presave" className="py-12 border-t border-b" style={{ borderColor: "var(--border)" }}>
+        {/* Listen / Order CTA */}
+        <div id="listen" className="py-12 border-t border-b" style={{ borderColor: "var(--border)" }}>
           <p className="text-xs tracking-[0.3em] uppercase mb-4" style={{ color: "var(--gold)", fontFamily: "var(--font-inter)" }}>
-            {lang === "en" ? "Listen & Pre-Order" : "Escuchar y Pre-ordenar"}
+            {lang === "en" ? "Listen & Order" : "Escuchar y Ordenar"}
           </p>
           <div className="flex flex-wrap gap-4">
             <a
-              href="https://orcd.co/radiobohemiav2"
+              href="https://www.youtube.com/playlist?list=OLAK5uy_llFEJpXLZ5rlhs-3reMZeUIcGlPRODpYY"
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-3 text-xs tracking-widest uppercase font-medium transition-opacity hover:opacity-80"
