@@ -117,10 +117,7 @@ export default function PressPhotoGallery() {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Top bar */}
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-xs tracking-widest uppercase" style={{ color: "var(--text-dim)", fontFamily: "var(--font-inter)" }}>
-                {active.alt}
-              </p>
+            <div className="flex items-center justify-end mb-3">
               <div className="flex items-center gap-3">
                 <a
                   href={active.src}
