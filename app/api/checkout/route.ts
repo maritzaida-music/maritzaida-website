@@ -48,6 +48,7 @@ export async function POST(req: NextRequest) {
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
+      metadata: { store: "maritzaida" },
       line_items: [
         {
           price_data: {

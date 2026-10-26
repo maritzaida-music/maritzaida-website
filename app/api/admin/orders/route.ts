@@ -5,6 +5,21 @@ function authorized(req: NextRequest) {
   return req.headers.get("x-admin-secret") === process.env.ADMIN_SECRET;
 }
 
+const MARITZAIDA_PRODUCTS = [
+  "boleros clásicos volumen i",
+  "boleros clásicos volumen ii",
+  "alma adentro",
+  "sentimientos en vivo",
+  "radio bohemia volumen i",
+  "radio bohemia volumen ii",
+];
+
+function isMaritzaidaSession(s: Stripe.Checkout.Session): boolean {
+  if (s.metadata?.store === "maritzaida") return true;
+  const desc = s.line_items?.data[0]?.description?.toLowerCase() ?? "";
+  return MARITZAIDA_PRODUCTS.some((p) => desc.includes(p));
+}
+
 export async function GET(req: NextRequest) {
   if (!authorized(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -23,7 +38,7 @@ export async function GET(req: NextRequest) {
       ...(startingAfter ? { starting_after: startingAfter } : {}),
     });
 
-    allSessions.push(...page.data);
+    allSessions.push(...page.data.filter((s) => s.payment_status === "paid" && isMaritzaidaSession(s)));
     hasMore = page.has_more;
     if (page.data.length > 0) {
       startingAfter = page.data[page.data.length - 1].id;
@@ -33,7 +48,6 @@ export async function GET(req: NextRequest) {
   }
 
   const orders = allSessions
-    .filter((s) => s.payment_status === "paid")
     .map((s) => {
       const pi = s.payment_intent as Stripe.PaymentIntent | null;
       const item = s.line_items?.data[0];
