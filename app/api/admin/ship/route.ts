@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
   const customerName = session.customer_details?.name ?? "friend";
   const product = session.line_items?.data[0]?.description ?? "your order";
   const address = formatAddress(
-    session.shipping_details?.address ?? session.customer_details?.address ?? null
+    session.collected_information?.shipping_details?.address ?? session.customer_details?.address ?? null
   );
 
   const RESEND_API_KEY = process.env.RESEND_API_KEY;
