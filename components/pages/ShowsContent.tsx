@@ -62,7 +62,7 @@ export default function ShowsContent() {
             </p>
           </div>
           <a
-            href="https://www.bandsintown.com/e/109108357-maritzaida-at-muddy-creek-cafe"
+            href="https://www.muddycreekcafeandmusichall.com/upcoming-muddy-creek-listening-room-shows"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block px-8 py-3 text-xs tracking-widest uppercase font-medium shrink-0"
