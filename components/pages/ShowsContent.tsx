@@ -41,11 +41,36 @@ export default function ShowsContent() {
         </div>
       </div>
 
-      {/* No upcoming shows */}
-      <section className="max-w-4xl mx-auto px-6 py-16 text-center" aria-label="Upcoming shows">
-        <p className="text-base tracking-widest uppercase" style={{ color: "var(--text-dim)", fontFamily: "var(--font-inter)", letterSpacing: "0.2em" }}>
-          No Upcoming Concerts
+      {/* Upcoming shows */}
+      <section className="max-w-4xl mx-auto px-6 py-16" aria-label="Upcoming shows">
+        <p className="text-xs tracking-[0.3em] uppercase mb-8" style={{ color: "var(--gold)", fontFamily: "var(--font-inter)" }}>
+          Upcoming Concerts
         </p>
+        <div
+          className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 py-8"
+          style={{ borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}
+        >
+          <div>
+            <p className="text-xs tracking-[0.2em] uppercase mb-2" style={{ color: "var(--text-dim)", fontFamily: "var(--font-inter)" }}>
+              Sun, Mar 14, 2027 · 2:00 PM
+            </p>
+            <h2 className="text-2xl md:text-3xl mb-1" style={{ fontFamily: "var(--font-cormorant)", color: "var(--text-primary)", fontWeight: 300 }}>
+              Soul Sessions WS
+            </h2>
+            <p className="text-sm" style={{ color: "var(--text-muted)", fontWeight: 300 }}>
+              Muddy Creek Cafe · Winston-Salem, NC
+            </p>
+          </div>
+          <a
+            href="https://www.bandsintown.com/e/109108357-maritzaida-at-muddy-creek-cafe"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block px-8 py-3 text-xs tracking-widest uppercase font-medium shrink-0"
+            style={{ border: "1px solid var(--gold)", color: "var(--gold)", letterSpacing: "0.15em", fontFamily: "var(--font-inter)" }}
+          >
+            Get Tickets
+          </a>
+        </div>
       </section>
 
       {/* Booking CTA */}
