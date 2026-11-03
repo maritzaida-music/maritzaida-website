@@ -1,22 +1,24 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useLang, type Lang } from "./LanguageContext";
 
 export default function LanguageSplash() {
+  const pathname = usePathname();
   const { setLang } = useLang();
   const [visible, setVisible] = useState(false);
   const [chosen, setChosen] = useState<Lang | null>(null);
   const [leaving, setLeaving] = useState(false);
 
   useEffect(() => {
+    if (pathname === "/test-book") return;
     const stored = localStorage.getItem("maritzaida-lang");
     if (!stored) {
-      // Small delay so the page behind it has a moment to paint
       const t = setTimeout(() => setVisible(true), 200);
       return () => clearTimeout(t);
     }
-  }, []);
+  }, [pathname]);
 
   const choose = (l: Lang) => {
     setChosen(l);
