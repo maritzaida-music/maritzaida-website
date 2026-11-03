@@ -1,17 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  async rewrites() {
-    return {
-      beforeFiles: [
-        {
-          source: "/:path*",
-          has: [{ type: "host", value: "cancionera.maritzaida.com" }],
-          destination: "/cancionera/:path*",
-        },
-      ],
-    };
-  },
   images: {
     remotePatterns: [
       {

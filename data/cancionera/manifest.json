@@ -1,12 +1,1097 @@
 {
   "title": {
-    "en": "Alma Adentro II",
-    "es": "Alma Adentro II"
+    "es": "Alma Adentro II",
+    "en": "Alma Adentro II"
   },
   "subtitle": {
-    "en": "Cancionera de la Música Bohemia de Sylvia Rexach y Tutti Umpierre",
-    "es": "Cancionera de la Música Bohemia de Sylvia Rexach y Tutti Umpierre"
+    "es": "Cancionera de la Música Bohemia de Sylvia Rexach y Tutti Umpierre",
+    "en": "Cancionera de la Música Bohemia de Sylvia Rexach y Tutti Umpierre"
   },
-  "totalPages": 0,
-  "pages": []
+  "totalPages": 163,
+  "songs": [
+    {
+      "id": 1,
+      "title": {
+        "es": "Yo Era Una Flor",
+        "en": "Yo Era Una Flor"
+      },
+      "startPage": 14,
+      "musicPage": 16,
+      "youtubeId": "vn4rU-dOctE"
+    },
+    {
+      "id": 2,
+      "title": {
+        "es": "Mi Regalo",
+        "en": "Mi Regalo"
+      },
+      "startPage": 17,
+      "musicPage": 22,
+      "youtubeId": "yLo11PinZIo"
+    },
+    {
+      "id": 3,
+      "title": {
+        "es": "Una Vez",
+        "en": "Una Vez"
+      },
+      "startPage": 23,
+      "musicPage": 26,
+      "youtubeId": "1FGWdxPblew"
+    },
+    {
+      "id": 4,
+      "title": {
+        "es": "Costa de Oro",
+        "en": "Costa de Oro"
+      },
+      "startPage": 27,
+      "musicPage": 30,
+      "youtubeId": "-AeGNFZ4GIk"
+    },
+    {
+      "id": 5,
+      "title": {
+        "es": "Despertar de Amor",
+        "en": "Despertar de Amor"
+      },
+      "startPage": 31,
+      "musicPage": 34,
+      "youtubeId": "SMmJXcCK3ng"
+    },
+    {
+      "id": 6,
+      "title": {
+        "es": "Novela de Amor",
+        "en": "Novela de Amor"
+      },
+      "startPage": 35,
+      "musicPage": 38,
+      "youtubeId": "DQ6uvg-x8ig"
+    },
+    {
+      "id": 7,
+      "title": {
+        "es": "¿Qué has hecho?",
+        "en": "¿Qué has hecho?"
+      },
+      "startPage": 39,
+      "musicPage": 42,
+      "youtubeId": "pOvcattE8C0"
+    },
+    {
+      "id": 8,
+      "title": {
+        "es": "Lamento de Navidad",
+        "en": "Lamento de Navidad"
+      },
+      "startPage": 43,
+      "musicPage": 46,
+      "youtubeId": "aLSF8mhbzhI"
+    },
+    {
+      "id": 9,
+      "title": {
+        "es": "Año Nuevo",
+        "en": "Año Nuevo"
+      },
+      "startPage": 47,
+      "musicPage": 50,
+      "youtubeId": "hQ3GNG2VrmI"
+    },
+    {
+      "id": 10,
+      "title": {
+        "es": "Canción para un Amor",
+        "en": "Canción para un Amor"
+      },
+      "startPage": 51,
+      "musicPage": 54,
+      "youtubeId": "pJH7Koku7-4"
+    },
+    {
+      "id": 11,
+      "title": {
+        "es": "Te Busqué",
+        "en": "Te Busqué"
+      },
+      "startPage": 55,
+      "musicPage": 58,
+      "youtubeId": "CeZMid-CkIk"
+    },
+    {
+      "id": 12,
+      "title": {
+        "es": "Senda de Flores",
+        "en": "Senda de Flores"
+      },
+      "startPage": 59,
+      "musicPage": 62,
+      "youtubeId": "ZGUlxEvU7K8"
+    },
+    {
+      "id": 13,
+      "title": {
+        "es": "Más de Una Vez (I Like to Know)",
+        "en": "Más de Una Vez (I Like to Know)"
+      },
+      "startPage": 63,
+      "musicPage": 66,
+      "youtubeId": "YpBJrwSo-CQ"
+    },
+    {
+      "id": 14,
+      "title": {
+        "es": "Balada de la Niña y el Río",
+        "en": "Balada de la Niña y el Río"
+      },
+      "startPage": 67,
+      "musicPage": 70,
+      "youtubeId": "L4uZ8MQX6ng"
+    },
+    {
+      "id": 15,
+      "title": {
+        "es": "El Amor Es Una Cruz",
+        "en": "El Amor Es Una Cruz"
+      },
+      "startPage": 71,
+      "musicPage": 74,
+      "youtubeId": "uJxgt9-93bs"
+    },
+    {
+      "id": 16,
+      "title": {
+        "es": "Siempre Mi Amor",
+        "en": "Siempre Mi Amor"
+      },
+      "startPage": 75,
+      "musicPage": 80,
+      "youtubeId": "w5shpG3J7Vw"
+    },
+    {
+      "id": 17,
+      "title": {
+        "es": "No Iré",
+        "en": "No Iré"
+      },
+      "startPage": 81,
+      "musicPage": 84,
+      "youtubeId": "gVQPB5qYWDg"
+    },
+    {
+      "id": 18,
+      "title": {
+        "es": "Realidad",
+        "en": "Realidad"
+      },
+      "startPage": 85,
+      "musicPage": 87,
+      "youtubeId": "OedgrVJW8n4"
+    },
+    {
+      "id": 19,
+      "title": {
+        "es": "Pedazo de Luna",
+        "en": "Pedazo de Luna"
+      },
+      "startPage": 88,
+      "musicPage": 91,
+      "youtubeId": "CDZJzJRI6Do"
+    },
+    {
+      "id": 20,
+      "title": {
+        "es": "Bodas de Oro",
+        "en": "Bodas de Oro"
+      },
+      "startPage": 92,
+      "musicPage": 95,
+      "youtubeId": "kcqjGF18hk8"
+    },
+    {
+      "id": 21,
+      "title": {
+        "es": "Planetarium",
+        "en": "Planetarium"
+      },
+      "startPage": 96,
+      "musicPage": 99,
+      "youtubeId": "_IuzC0Gt-Sc"
+    },
+    {
+      "id": 22,
+      "title": {
+        "es": "Mi Versión",
+        "en": "Mi Versión"
+      },
+      "startPage": 100,
+      "musicPage": 103,
+      "youtubeId": "9lYNKAGL-K8"
+    },
+    {
+      "id": 23,
+      "title": {
+        "es": "La Vida Dirá",
+        "en": "La Vida Dirá"
+      },
+      "startPage": 104,
+      "musicPage": 107,
+      "youtubeId": "Uz5YZRaZDi0"
+    },
+    {
+      "id": 24,
+      "title": {
+        "es": "Quisiera Ser",
+        "en": "Quisiera Ser"
+      },
+      "startPage": 108,
+      "musicPage": 111,
+      "youtubeId": "JEUZiCBkRSY"
+    },
+    {
+      "id": 25,
+      "title": {
+        "es": "Dios de Oro",
+        "en": "Dios de Oro"
+      },
+      "startPage": 112,
+      "musicPage": 115,
+      "youtubeId": "zVF0G8Vl7bI"
+    },
+    {
+      "id": 26,
+      "title": {
+        "es": "Y Entonces",
+        "en": "Y Entonces"
+      },
+      "startPage": 116,
+      "musicPage": 121,
+      "youtubeId": "lGxIAr5E0UM"
+    },
+    {
+      "id": 27,
+      "title": {
+        "es": "Por Siempre",
+        "en": "Por Siempre"
+      },
+      "startPage": 127,
+      "musicPage": 127,
+      "youtubeId": "p_Cx3YsJuso"
+    },
+    {
+      "id": 28,
+      "title": {
+        "es": "Negra",
+        "en": "Negra"
+      },
+      "startPage": 128,
+      "musicPage": 129,
+      "youtubeId": "mhL8ZBDgF5U"
+    },
+    {
+      "id": 29,
+      "title": {
+        "es": "Mi Asuntito",
+        "en": "Mi Asuntito"
+      },
+      "startPage": 130,
+      "musicPage": 131,
+      "youtubeId": "QMFa8UqIGHc"
+    },
+    {
+      "id": 30,
+      "title": {
+        "es": "El Otro Camino",
+        "en": "El Otro Camino"
+      },
+      "startPage": 132,
+      "musicPage": 133,
+      "youtubeId": "4njHkc2bjXk"
+    },
+    {
+      "id": 31,
+      "title": {
+        "es": "En Mis Sueños",
+        "en": "En Mis Sueños"
+      },
+      "startPage": 138,
+      "musicPage": 138,
+      "youtubeId": "ck3kVW-NpWs"
+    },
+    {
+      "id": 32,
+      "title": {
+        "es": "Es Tarde Ya",
+        "en": "Es Tarde Ya"
+      },
+      "startPage": 139,
+      "musicPage": 139,
+      "youtubeId": "LIQVsTAdnAk"
+    },
+    {
+      "id": 33,
+      "title": {
+        "es": "Alma Adentro",
+        "en": "Alma Adentro"
+      },
+      "startPage": 140,
+      "musicPage": 141,
+      "youtubeId": "2yfPIHt2ejo"
+    },
+    {
+      "id": 34,
+      "title": {
+        "es": "Anochecer",
+        "en": "Anochecer"
+      },
+      "startPage": 142,
+      "musicPage": 143,
+      "youtubeId": "YQGf6zqTeRE"
+    },
+    {
+      "id": 35,
+      "title": {
+        "es": "Nuestra Luna",
+        "en": "Nuestra Luna"
+      },
+      "startPage": 144,
+      "musicPage": 145,
+      "youtubeId": "QHLMAnGi1OA"
+    },
+    {
+      "id": 36,
+      "title": {
+        "es": "Matiz de Amor",
+        "en": "Matiz de Amor"
+      },
+      "startPage": 146,
+      "musicPage": 147,
+      "youtubeId": "zBH8ne5qVok"
+    },
+    {
+      "id": 37,
+      "title": {
+        "es": "Di Corazón",
+        "en": "Di Corazón"
+      },
+      "startPage": 148,
+      "musicPage": 149,
+      "youtubeId": "z871Pf4pAho"
+    },
+    {
+      "id": 38,
+      "title": {
+        "es": "Mi Subconsciente Amor",
+        "en": "Mi Subconsciente Amor"
+      },
+      "startPage": 150,
+      "musicPage": 151,
+      "youtubeId": "l1UnBpw6Ipo"
+    },
+    {
+      "id": 39,
+      "title": {
+        "es": "Tus Pasos",
+        "en": "Tus Pasos"
+      },
+      "startPage": 152,
+      "musicPage": 153,
+      "youtubeId": "K8hRGQAIXEc"
+    },
+    {
+      "id": 40,
+      "title": {
+        "es": "Luna Sobre El Condado",
+        "en": "Luna Sobre El Condado"
+      },
+      "startPage": 154,
+      "musicPage": 155,
+      "youtubeId": "zTsZ95GZCBk"
+    },
+    {
+      "id": 41,
+      "title": {
+        "es": "Nave Sin Rumbo",
+        "en": "Nave Sin Rumbo"
+      },
+      "startPage": 156,
+      "musicPage": 157,
+      "youtubeId": "qEvw__kwIhY"
+    },
+    {
+      "id": 42,
+      "title": {
+        "es": "Había Una Vez",
+        "en": "Había Una Vez"
+      },
+      "startPage": 158,
+      "musicPage": 159,
+      "youtubeId": "FjtsTrOy1eY"
+    },
+    {
+      "id": 43,
+      "title": {
+        "es": "Olas y Arenas",
+        "en": "Olas y Arenas"
+      },
+      "startPage": 160,
+      "musicPage": 161,
+      "youtubeId": "-tND3WlVACU"
+    }
+  ],
+  "pages": [
+    {
+      "page": 1,
+      "type": "music"
+    },
+    {
+      "page": 2,
+      "type": "music"
+    },
+    {
+      "page": 3,
+      "type": "music"
+    },
+    {
+      "page": 4,
+      "type": "music"
+    },
+    {
+      "page": 5,
+      "type": "music"
+    },
+    {
+      "page": 6,
+      "type": "music"
+    },
+    {
+      "page": 7,
+      "type": "music"
+    },
+    {
+      "page": 8,
+      "type": "music"
+    },
+    {
+      "page": 9,
+      "type": "music"
+    },
+    {
+      "page": 10,
+      "type": "music"
+    },
+    {
+      "page": 11,
+      "type": "music"
+    },
+    {
+      "page": 12,
+      "type": "music"
+    },
+    {
+      "page": 13,
+      "type": "music"
+    },
+    {
+      "page": 14,
+      "type": "music"
+    },
+    {
+      "page": 15,
+      "type": "music"
+    },
+    {
+      "page": 16,
+      "type": "music"
+    },
+    {
+      "page": 17,
+      "type": "music"
+    },
+    {
+      "page": 18,
+      "type": "music"
+    },
+    {
+      "page": 19,
+      "type": "music"
+    },
+    {
+      "page": 20,
+      "type": "music"
+    },
+    {
+      "page": 21,
+      "type": "music"
+    },
+    {
+      "page": 22,
+      "type": "music"
+    },
+    {
+      "page": 23,
+      "type": "music"
+    },
+    {
+      "page": 24,
+      "type": "music"
+    },
+    {
+      "page": 25,
+      "type": "music"
+    },
+    {
+      "page": 26,
+      "type": "music"
+    },
+    {
+      "page": 27,
+      "type": "music"
+    },
+    {
+      "page": 28,
+      "type": "music"
+    },
+    {
+      "page": 29,
+      "type": "music"
+    },
+    {
+      "page": 30,
+      "type": "music"
+    },
+    {
+      "page": 31,
+      "type": "music"
+    },
+    {
+      "page": 32,
+      "type": "music"
+    },
+    {
+      "page": 33,
+      "type": "music"
+    },
+    {
+      "page": 34,
+      "type": "music"
+    },
+    {
+      "page": 35,
+      "type": "music"
+    },
+    {
+      "page": 36,
+      "type": "music"
+    },
+    {
+      "page": 37,
+      "type": "music"
+    },
+    {
+      "page": 38,
+      "type": "music"
+    },
+    {
+      "page": 39,
+      "type": "music"
+    },
+    {
+      "page": 40,
+      "type": "music"
+    },
+    {
+      "page": 41,
+      "type": "music"
+    },
+    {
+      "page": 42,
+      "type": "music"
+    },
+    {
+      "page": 43,
+      "type": "music"
+    },
+    {
+      "page": 44,
+      "type": "music"
+    },
+    {
+      "page": 45,
+      "type": "music"
+    },
+    {
+      "page": 46,
+      "type": "music"
+    },
+    {
+      "page": 47,
+      "type": "music"
+    },
+    {
+      "page": 48,
+      "type": "music"
+    },
+    {
+      "page": 49,
+      "type": "music"
+    },
+    {
+      "page": 50,
+      "type": "music"
+    },
+    {
+      "page": 51,
+      "type": "music"
+    },
+    {
+      "page": 52,
+      "type": "music"
+    },
+    {
+      "page": 53,
+      "type": "music"
+    },
+    {
+      "page": 54,
+      "type": "music"
+    },
+    {
+      "page": 55,
+      "type": "music"
+    },
+    {
+      "page": 56,
+      "type": "music"
+    },
+    {
+      "page": 57,
+      "type": "music"
+    },
+    {
+      "page": 58,
+      "type": "music"
+    },
+    {
+      "page": 59,
+      "type": "music"
+    },
+    {
+      "page": 60,
+      "type": "music"
+    },
+    {
+      "page": 61,
+      "type": "music"
+    },
+    {
+      "page": 62,
+      "type": "music"
+    },
+    {
+      "page": 63,
+      "type": "music"
+    },
+    {
+      "page": 64,
+      "type": "music"
+    },
+    {
+      "page": 65,
+      "type": "music"
+    },
+    {
+      "page": 66,
+      "type": "music"
+    },
+    {
+      "page": 67,
+      "type": "music"
+    },
+    {
+      "page": 68,
+      "type": "music"
+    },
+    {
+      "page": 69,
+      "type": "music"
+    },
+    {
+      "page": 70,
+      "type": "music"
+    },
+    {
+      "page": 71,
+      "type": "music"
+    },
+    {
+      "page": 72,
+      "type": "music"
+    },
+    {
+      "page": 73,
+      "type": "music"
+    },
+    {
+      "page": 74,
+      "type": "music"
+    },
+    {
+      "page": 75,
+      "type": "music"
+    },
+    {
+      "page": 76,
+      "type": "music"
+    },
+    {
+      "page": 77,
+      "type": "music"
+    },
+    {
+      "page": 78,
+      "type": "music"
+    },
+    {
+      "page": 79,
+      "type": "music"
+    },
+    {
+      "page": 80,
+      "type": "music"
+    },
+    {
+      "page": 81,
+      "type": "music"
+    },
+    {
+      "page": 82,
+      "type": "music"
+    },
+    {
+      "page": 83,
+      "type": "music"
+    },
+    {
+      "page": 84,
+      "type": "music"
+    },
+    {
+      "page": 85,
+      "type": "music"
+    },
+    {
+      "page": 86,
+      "type": "music"
+    },
+    {
+      "page": 87,
+      "type": "music"
+    },
+    {
+      "page": 88,
+      "type": "music"
+    },
+    {
+      "page": 89,
+      "type": "music"
+    },
+    {
+      "page": 90,
+      "type": "music"
+    },
+    {
+      "page": 91,
+      "type": "music"
+    },
+    {
+      "page": 92,
+      "type": "music"
+    },
+    {
+      "page": 93,
+      "type": "music"
+    },
+    {
+      "page": 94,
+      "type": "music"
+    },
+    {
+      "page": 95,
+      "type": "music"
+    },
+    {
+      "page": 96,
+      "type": "music"
+    },
+    {
+      "page": 97,
+      "type": "music"
+    },
+    {
+      "page": 98,
+      "type": "music"
+    },
+    {
+      "page": 99,
+      "type": "music"
+    },
+    {
+      "page": 100,
+      "type": "music"
+    },
+    {
+      "page": 101,
+      "type": "music"
+    },
+    {
+      "page": 102,
+      "type": "music"
+    },
+    {
+      "page": 103,
+      "type": "music"
+    },
+    {
+      "page": 104,
+      "type": "music"
+    },
+    {
+      "page": 105,
+      "type": "music"
+    },
+    {
+      "page": 106,
+      "type": "music"
+    },
+    {
+      "page": 107,
+      "type": "music"
+    },
+    {
+      "page": 108,
+      "type": "music"
+    },
+    {
+      "page": 109,
+      "type": "music"
+    },
+    {
+      "page": 110,
+      "type": "music"
+    },
+    {
+      "page": 111,
+      "type": "music"
+    },
+    {
+      "page": 112,
+      "type": "music"
+    },
+    {
+      "page": 113,
+      "type": "music"
+    },
+    {
+      "page": 114,
+      "type": "music"
+    },
+    {
+      "page": 115,
+      "type": "music"
+    },
+    {
+      "page": 116,
+      "type": "music"
+    },
+    {
+      "page": 117,
+      "type": "music"
+    },
+    {
+      "page": 118,
+      "type": "music"
+    },
+    {
+      "page": 119,
+      "type": "music"
+    },
+    {
+      "page": 120,
+      "type": "music"
+    },
+    {
+      "page": 121,
+      "type": "music"
+    },
+    {
+      "page": 122,
+      "type": "music"
+    },
+    {
+      "page": 123,
+      "type": "music"
+    },
+    {
+      "page": 124,
+      "type": "music"
+    },
+    {
+      "page": 125,
+      "type": "music"
+    },
+    {
+      "page": 126,
+      "type": "music"
+    },
+    {
+      "page": 127,
+      "type": "music"
+    },
+    {
+      "page": 128,
+      "type": "music"
+    },
+    {
+      "page": 129,
+      "type": "music"
+    },
+    {
+      "page": 130,
+      "type": "music"
+    },
+    {
+      "page": 131,
+      "type": "music"
+    },
+    {
+      "page": 132,
+      "type": "music"
+    },
+    {
+      "page": 133,
+      "type": "music"
+    },
+    {
+      "page": 134,
+      "type": "music"
+    },
+    {
+      "page": 135,
+      "type": "music"
+    },
+    {
+      "page": 136,
+      "type": "music"
+    },
+    {
+      "page": 137,
+      "type": "music"
+    },
+    {
+      "page": 138,
+      "type": "music"
+    },
+    {
+      "page": 139,
+      "type": "music"
+    },
+    {
+      "page": 140,
+      "type": "music"
+    },
+    {
+      "page": 141,
+      "type": "music"
+    },
+    {
+      "page": 142,
+      "type": "music"
+    },
+    {
+      "page": 143,
+      "type": "music"
+    },
+    {
+      "page": 144,
+      "type": "music"
+    },
+    {
+      "page": 145,
+      "type": "music"
+    },
+    {
+      "page": 146,
+      "type": "music"
+    },
+    {
+      "page": 147,
+      "type": "music"
+    },
+    {
+      "page": 148,
+      "type": "music"
+    },
+    {
+      "page": 149,
+      "type": "music"
+    },
+    {
+      "page": 150,
+      "type": "music"
+    },
+    {
+      "page": 151,
+      "type": "music"
+    },
+    {
+      "page": 152,
+      "type": "music"
+    },
+    {
+      "page": 153,
+      "type": "music"
+    },
+    {
+      "page": 154,
+      "type": "music"
+    },
+    {
+      "page": 155,
+      "type": "music"
+    },
+    {
+      "page": 156,
+      "type": "music"
+    },
+    {
+      "page": 157,
+      "type": "music"
+    },
+    {
+      "page": 158,
+      "type": "music"
+    },
+    {
+      "page": 159,
+      "type": "music"
+    },
+    {
+      "page": 160,
+      "type": "music"
+    },
+    {
+      "page": 161,
+      "type": "music"
+    },
+    {
+      "page": 162,
+      "type": "music"
+    },
+    {
+      "page": 163,
+      "type": "music"
+    }
+  ]
 }

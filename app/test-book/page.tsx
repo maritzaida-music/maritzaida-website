@@ -10,7 +10,7 @@ export default function CancioneraPage() {
   return (
     <CancioneraReader
       totalPages={manifest.totalPages}
-      intro={null}
+      songs={manifest.songs}
     />
   );
 }
