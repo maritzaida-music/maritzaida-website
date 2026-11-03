@@ -65,7 +65,7 @@ export async function GET(request: NextRequest) {
     return new NextResponse("Page not found", { status: 404 });
   }
 
-  return new NextResponse(bytes, {
+  return new NextResponse(new Uint8Array(bytes), {
     headers: {
       "Content-Type": "image/webp",
       "Cache-Control": "private, no-store",

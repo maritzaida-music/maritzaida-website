@@ -75,7 +75,7 @@ export default function CancioneraReader({
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [jumpInput, setJumpInput] = useState("");
-  const [tocOpen, setTocOpen] = useState(true);
+  const [tocOpen, setTocOpen] = useState(false);
   const [ytSong, setYtSong] = useState<Song | null>(null);
 
   const leftRef = useRef<HTMLCanvasElement>(null);
@@ -150,8 +150,7 @@ export default function CancioneraReader({
   }
 
   function jumpToSong(song: Song) {
-    // Convert song's startPage to the spread/single page index
-    const target = layout === "spread" ? Math.ceil(song.startPage / 2) : song.startPage;
+    const target = layout === "spread" ? Math.ceil(song.musicPage / 2) : song.musicPage;
     setPage(Math.max(1, Math.min(maxPage, target)));
     setTocOpen(false);
   }
