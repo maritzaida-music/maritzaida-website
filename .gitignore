@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# cancionera page images (large; deploy separately via Vercel CLI or upload)
+/data/cancionera/pages/
