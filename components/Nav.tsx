@@ -29,6 +29,8 @@ export default function Nav() {
     { href: "/contact", label: t("nav.contact") },
   ];
 
+  if (pathname === "/test-book") return null;
+
   const mediaActive = mediaLinks.some((l) => pathname === l.href);
 
   useEffect(() => {
