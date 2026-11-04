@@ -88,6 +88,7 @@ export default function CancioneraReader({
 }) {
   const lang: Lang = "es";
   const chords: Chords = "fixeddo";
+  const [zoom, setZoom] = useState(1.0);
   const [layout, setLayout] = useState<Layout>("spread");
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -244,8 +245,10 @@ export default function CancioneraReader({
   }
 
   function jumpToSong(song: Song) {
-    const target = layout === "spread" ? Math.ceil(song.musicPage / 2) : song.musicPage;
-    setPage(Math.max(1, Math.min(maxPage, target)));
+    // Always switch to single-page so only the music sheet is visible,
+    // not a spread where the adjacent page shows the next song's story.
+    setLayout("single");
+    setPage(Math.max(1, Math.min(totalPages, song.musicPage)));
     setTocOpen(false);
   }
 
@@ -375,6 +378,33 @@ export default function CancioneraReader({
             {btn(layout === "spread", ui.spread, () => changeLayout("spread"))}
             {btn(layout === "single", ui.single, () => changeLayout("single"))}
           </span>
+          <div style={{ display: "flex", gap: 2, alignItems: "center", marginLeft: 4 }}>
+            <button
+              onClick={() => setZoom(z => Math.max(0.5, +(z - 0.25).toFixed(2)))}
+              disabled={zoom <= 0.5}
+              title="Zoom out"
+              style={{
+                width: 30, height: 30, background: "transparent",
+                border: "1px solid #2a241c", color: zoom <= 0.5 ? "#3a3028" : "#c9a04a",
+                cursor: zoom <= 0.5 ? "default" : "pointer",
+                fontSize: 16, lineHeight: 1,
+              }}
+            >−</button>
+            <span style={{ fontSize: 11, color: "#6a6050", minWidth: 32, textAlign: "center" }}>
+              {Math.round(zoom * 100)}%
+            </span>
+            <button
+              onClick={() => setZoom(z => Math.min(2.0, +(z + 0.25).toFixed(2)))}
+              disabled={zoom >= 2.0}
+              title="Zoom in"
+              style={{
+                width: 30, height: 30, background: "transparent",
+                border: "1px solid #2a241c", color: zoom >= 2.0 ? "#3a3028" : "#c9a04a",
+                cursor: zoom >= 2.0 ? "default" : "pointer",
+                fontSize: 16, lineHeight: 1,
+              }}
+            >+</button>
+          </div>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -556,8 +586,10 @@ export default function CancioneraReader({
               ref={leftRef}
               onContextMenu={noContext}
               style={{
-                maxWidth: layout === "spread" ? "calc(50% - 4px)" : "min(820px, 100%)",
-                maxHeight: "88vh",
+                maxWidth: layout === "spread"
+                  ? `calc(${50 * zoom}% - 4px)`
+                  : `min(${820 * zoom}px, ${100 * zoom}%)`,
+                maxHeight: zoom > 1 ? "none" : "88vh",
                 objectFit: "contain",
                 display: "block",
                 background: "#f5f0e8",
@@ -568,8 +600,8 @@ export default function CancioneraReader({
                 ref={rightRef}
                 onContextMenu={noContext}
                 style={{
-                  maxWidth: "calc(50% - 4px)",
-                  maxHeight: "88vh",
+                  maxWidth: `calc(${50 * zoom}% - 4px)`,
+                  maxHeight: zoom > 1 ? "none" : "88vh",
                   objectFit: "contain",
                   display: "block",
                   background: "#f5f0e8",
@@ -611,6 +643,30 @@ export default function CancioneraReader({
             </button>
           </div>
         )}
+      </div>
+
+      {/* Disclaimer */}
+      <div
+        style={{
+          borderTop: "1px solid #1e1a14",
+          padding: "24px",
+          textAlign: "center",
+        }}
+      >
+        <p
+          style={{
+            fontSize: 12,
+            color: "#6a6050",
+            lineHeight: 1.8,
+            maxWidth: 680,
+            margin: "0 auto",
+            fontStyle: "italic",
+            userSelect: "text",
+            WebkitUserSelect: "text",
+          }}
+        >
+          {HEADER}
+        </p>
       </div>
 
       {/* Mini audio player bar */}
