@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
+import { headers } from "next/headers";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import ConditionalFooter from "@/components/ConditionalFooter";
@@ -108,9 +109,12 @@ const artistJsonLd = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const host = (await headers()).get("host") ?? "";
+  const isCancionera = host === "cancionera.maritzaida.com";
+
   return (
     <html
       lang="en"
@@ -136,11 +140,11 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col">
         <LanguageProvider>
-          <LanguageSplash />
-          <Nav />
-          <PersistentRadio />
+          {!isCancionera && <LanguageSplash />}
+          {!isCancionera && <Nav />}
+          {!isCancionera && <PersistentRadio />}
           <main className="flex-1">{children}</main>
-          <ConditionalFooter />
+          {!isCancionera && <ConditionalFooter />}
         </LanguageProvider>
       </body>
     </html>
