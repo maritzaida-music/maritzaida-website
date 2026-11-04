@@ -282,7 +282,6 @@ export default function CancioneraReader({
   );
 
   const displayCurrent = scrubbing ? scrubValue : ytProgress.current;
-  const pct = ytProgress.duration > 0 ? (displayCurrent / ytProgress.duration) * 100 : 0;
 
   return (
     <div
@@ -304,64 +303,54 @@ export default function CancioneraReader({
       <div
         style={{
           borderBottom: "1px solid #2a2218",
-          padding: "20px 24px 18px",
+          padding: "14px 20px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-          <Link
-            href="https://www.maritzaida.com"
-            style={{
-              fontSize: 13,
-              color: "#9a8e7a",
-              textDecoration: "none",
-              letterSpacing: ".04em",
-              userSelect: "text",
-              WebkitUserSelect: "text",
-            }}
-          >
-            {ui.back}
-          </Link>
-          <div style={{ width: 120 }} />
-        </div>
-        <div style={{ textAlign: "center" }}>
-          <p
+        <div>
+          <span
             style={{
               fontFamily: "var(--font-cormorant, Georgia, serif)",
-              fontSize: "clamp(22px, 3vw, 30px)",
+              fontSize: "clamp(18px, 2.5vw, 24px)",
               fontWeight: 300,
               letterSpacing: ".04em",
               color: "#c9a04a",
-              margin: "0 0 4px",
             }}
           >
             Alma Adentro II
-          </p>
-          <p
-            style={{
-              fontSize: 13,
-              color: "#9a8e7a",
-              letterSpacing: ".08em",
-              margin: "0 0 14px",
-              textTransform: "uppercase",
-            }}
-          >
-            Cancionera de la Música Bohemia de Sylvia Rexach y Tutti Umpierre
-          </p>
-          <p
+          </span>
+          <span
             style={{
               fontSize: 12,
-              color: "#7a7060",
-              lineHeight: 1.7,
-              maxWidth: 680,
-              margin: "0 auto",
-              fontStyle: "italic",
-              userSelect: "text",
-              WebkitUserSelect: "text",
+              color: "#6a6050",
+              letterSpacing: ".06em",
+              marginLeft: 14,
+              textTransform: "uppercase",
+              display: "inline" as const,
             }}
+            className="hidden md:inline"
           >
-            {HEADER}
-          </p>
+            Cancionera de Sylvia Rexach &amp; Tutti Umpierre
+          </span>
         </div>
+        <Link
+          href="https://www.maritzaida.com"
+          style={{
+            fontSize: 13,
+            color: "#9a8e7a",
+            textDecoration: "none",
+            letterSpacing: ".03em",
+            border: "1px solid #2a241c",
+            padding: "6px 14px",
+            whiteSpace: "nowrap" as const,
+            userSelect: "text",
+            WebkitUserSelect: "text",
+          }}
+        >
+          Continue to Maritzaida.com →
+        </Link>
       </div>
 
       {/* Controls */}
@@ -513,7 +502,7 @@ export default function CancioneraReader({
               justifyContent: "center",
               alignItems: "flex-start",
               gap: layout === "spread" ? 8 : 0,
-              padding: "24px 12px 96px",
+              padding: "16px 0 96px",
               position: "relative",
             }}
           >
@@ -529,6 +518,40 @@ export default function CancioneraReader({
                 {ui.loading}
               </div>
             )}
+
+            {/* Left page-turn handle */}
+            <button
+              onClick={() => go(-1)}
+              disabled={page <= 1}
+              aria-label="Previous page"
+              style={{
+                position: "absolute",
+                left: 0,
+                top: 0,
+                bottom: 0,
+                width: "clamp(44px, 10%, 80px)",
+                background: "transparent",
+                border: "none",
+                cursor: page <= 1 ? "default" : "pointer",
+                opacity: page <= 1 ? 0 : 1,
+                zIndex: 5,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                paddingLeft: 12,
+                transition: "opacity .15s",
+              }}
+              className="page-handle"
+            >
+              <span style={{
+                fontSize: 32,
+                color: "#c9a04a",
+                opacity: 0.6,
+                lineHeight: 1,
+                pointerEvents: "none",
+              }}>‹</span>
+            </button>
+
             <canvas
               ref={leftRef}
               onContextMenu={noContext}
@@ -553,6 +576,39 @@ export default function CancioneraReader({
                 }}
               />
             )}
+
+            {/* Right page-turn handle */}
+            <button
+              onClick={() => go(1)}
+              disabled={page >= maxPage}
+              aria-label="Next page"
+              style={{
+                position: "absolute",
+                right: 0,
+                top: 0,
+                bottom: 0,
+                width: "clamp(44px, 10%, 80px)",
+                background: "transparent",
+                border: "none",
+                cursor: page >= maxPage ? "default" : "pointer",
+                opacity: page >= maxPage ? 0 : 1,
+                zIndex: 5,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                paddingRight: 12,
+                transition: "opacity .15s",
+              }}
+              className="page-handle"
+            >
+              <span style={{
+                fontSize: 32,
+                color: "#c9a04a",
+                opacity: 0.6,
+                lineHeight: 1,
+                pointerEvents: "none",
+              }}>›</span>
+            </button>
           </div>
         )}
       </div>
@@ -676,7 +732,11 @@ export default function CancioneraReader({
         @media print { * { display: none !important; } }
         @media (max-width: 767px) {
           .hidden.md\\:flex { display: none !important; }
+          .hidden.md\\:inline { display: none !important; }
         }
+        .page-handle:hover span { opacity: 1 !important; }
+        .page-handle:first-of-type:hover { background: linear-gradient(to right, rgba(201,160,74,0.08), transparent) !important; }
+        .page-handle:last-of-type:hover { background: linear-gradient(to left, rgba(201,160,74,0.08), transparent) !important; }
         input[type=range] {
           -webkit-appearance: none;
           appearance: none;
