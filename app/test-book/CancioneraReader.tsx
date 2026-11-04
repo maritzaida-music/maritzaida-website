@@ -1,6 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useCallback, useState } from "react";
+import Link from "next/link";
+
+declare global {
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    YT: any;
+    onYouTubeIframeAPIReady: () => void;
+  }
+}
 
 type Lang = "en" | "es";
 type Chords = "standard" | "fixeddo";
@@ -27,6 +36,7 @@ const UI = {
     play: "Play",
     close: "Close",
     listen: "Listen",
+    back: "← Maritzaida.com",
   },
   es: {
     standard: "Estándar",
@@ -40,6 +50,7 @@ const UI = {
     play: "Reproducir",
     close: "Cerrar",
     listen: "Escuchar",
+    back: "← Maritzaida.com",
   },
 };
 
@@ -62,6 +73,12 @@ async function drawPage(canvas: HTMLCanvasElement, url: string): Promise<void> {
   bitmap.close();
 }
 
+function formatTime(s: number) {
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return `${m}:${sec.toString().padStart(2, "0")}`;
+}
+
 export default function CancioneraReader({
   totalPages,
   songs,
@@ -76,7 +93,18 @@ export default function CancioneraReader({
   const [loading, setLoading] = useState(false);
   const [jumpInput, setJumpInput] = useState("");
   const [tocOpen, setTocOpen] = useState(false);
+
+  // Mini audio player
   const [ytSong, setYtSong] = useState<Song | null>(null);
+  const [ytPlaying, setYtPlaying] = useState(false);
+  const [ytProgress, setYtProgress] = useState({ current: 0, duration: 0 });
+  const [scrubbing, setScrubbing] = useState(false);
+  const [scrubValue, setScrubValue] = useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const ytPlayerRef = useRef<any>(null);
+  const ytContainerRef = useRef<HTMLDivElement>(null);
+  const ytApiReady = useRef(false);
+  const progressInterval = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const leftRef = useRef<HTMLCanvasElement>(null);
   const rightRef = useRef<HTMLCanvasElement>(null);
@@ -86,9 +114,7 @@ export default function CancioneraReader({
 
   // Detect mobile: single page default
   useEffect(() => {
-    if (window.innerWidth < 768) {
-      setLayout("single");
-    }
+    if (window.innerWidth < 768) setLayout("single");
   }, []);
 
   const load = useCallback(async () => {
@@ -132,15 +158,83 @@ export default function CancioneraReader({
     return () => window.removeEventListener("keydown", block, true);
   }, []);
 
-  // Block keyboard navigation when YouTube modal is open
+  // Load YouTube IFrame API once
   useEffect(() => {
-    if (ytSong) {
-      const block = (e: KeyboardEvent) => {
-        if (e.key === "Escape") setYtSong(null);
-      };
-      window.addEventListener("keydown", block);
-      return () => window.removeEventListener("keydown", block);
+    if (window.YT) { ytApiReady.current = true; return; }
+    window.onYouTubeIframeAPIReady = () => { ytApiReady.current = true; };
+    const s = document.createElement("script");
+    s.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(s);
+  }, []);
+
+  // Create / swap the YT player when ytSong changes
+  useEffect(() => {
+    if (!ytSong) {
+      if (progressInterval.current) clearInterval(progressInterval.current);
+      return;
     }
+    const startPolling = () => {
+      if (progressInterval.current) clearInterval(progressInterval.current);
+      progressInterval.current = setInterval(() => {
+        if (!ytPlayerRef.current) return;
+        try {
+          const current = ytPlayerRef.current.getCurrentTime?.() ?? 0;
+          const duration = ytPlayerRef.current.getDuration?.() ?? 0;
+          setYtProgress({ current, duration });
+        } catch { /* player not ready */ }
+      }, 500);
+    };
+    const init = () => {
+      if (ytPlayerRef.current) {
+        ytPlayerRef.current.loadVideoById(ytSong.youtubeId);
+        setYtPlaying(true);
+        startPolling();
+      } else if (ytContainerRef.current) {
+        ytPlayerRef.current = new window.YT.Player(ytContainerRef.current, {
+          videoId: ytSong.youtubeId,
+          playerVars: { autoplay: 1, controls: 0, rel: 0, playsinline: 1 },
+          events: {
+            onReady: (e: { target: { playVideo: () => void } }) => {
+              e.target.playVideo();
+              startPolling();
+            },
+            onStateChange: (e: { data: number }) => {
+              setYtPlaying(e.data === 1);
+              if (e.data === 0) setYtProgress(p => ({ ...p, current: p.duration }));
+            },
+          },
+        });
+      }
+    };
+    if (ytApiReady.current) { init(); }
+    else {
+      const prev = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => { prev?.(); ytApiReady.current = true; init(); };
+    }
+    return () => { if (progressInterval.current) clearInterval(progressInterval.current); };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ytSong]);
+
+  function ytTogglePlay() {
+    if (!ytPlayerRef.current) return;
+    if (ytPlaying) ytPlayerRef.current.pauseVideo();
+    else ytPlayerRef.current.playVideo();
+  }
+
+  function ytClose() {
+    if (ytPlayerRef.current) { try { ytPlayerRef.current.stopVideo(); } catch { /* ok */ } }
+    setYtSong(null);
+    setYtPlaying(false);
+    setYtProgress({ current: 0, duration: 0 });
+  }
+
+  // Escape closes player
+  useEffect(() => {
+    if (!ytSong) return;
+    const h = (e: KeyboardEvent) => { if (e.key === "Escape") ytClose(); };
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ytSong]);
 
   const noContext = (e: React.MouseEvent) => e.preventDefault();
@@ -167,18 +261,18 @@ export default function CancioneraReader({
     setPage(1);
   }
 
-  const btn = (active: boolean, label: string, onClick: () => void, gold = false) => (
+  const btn = (active: boolean, label: string, onClick: () => void) => (
     <button
       onClick={onClick}
       style={{
-        padding: "5px 11px",
-        fontSize: 11,
-        letterSpacing: ".1em",
+        padding: "6px 14px",
+        fontSize: 13,
+        letterSpacing: ".06em",
         textTransform: "uppercase" as const,
         fontFamily: "inherit",
-        background: active ? (gold ? "#c9a04a" : "#2a2218") : "transparent",
-        color: active ? (gold ? "#0d0b09" : "#c9a04a") : "#7a7060",
-        border: `1px solid ${active ? (gold ? "#c9a04a" : "#3a3020") : "#252018"}`,
+        background: active ? "#2a2218" : "transparent",
+        color: active ? "#e8dcc8" : "#9a8e7a",
+        border: `1px solid ${active ? "#4a3e28" : "#2a241c"}`,
         cursor: "pointer",
         whiteSpace: "nowrap" as const,
       }}
@@ -186,6 +280,9 @@ export default function CancioneraReader({
       {label}
     </button>
   );
+
+  const displayCurrent = scrubbing ? scrubValue : ytProgress.current;
+  const pct = ytProgress.duration > 0 ? (displayCurrent / ytProgress.duration) * 100 : 0;
 
   return (
     <div
@@ -198,51 +295,73 @@ export default function CancioneraReader({
         WebkitUserSelect: "none",
       }}
     >
+      {/* Hidden YouTube player container */}
+      <div style={{ position: "absolute", left: -9999, top: -9999, width: 320, height: 180, overflow: "hidden", pointerEvents: "none" }}>
+        <div ref={ytContainerRef} />
+      </div>
+
       {/* Header */}
       <div
         style={{
-          borderBottom: "1px solid #1e1a14",
-          padding: "24px 24px 20px",
-          textAlign: "center",
+          borderBottom: "1px solid #2a2218",
+          padding: "20px 24px 18px",
         }}
       >
-        <p
-          style={{
-            fontFamily: "var(--font-cormorant, Georgia, serif)",
-            fontSize: "clamp(20px, 3vw, 28px)",
-            fontWeight: 300,
-            letterSpacing: ".04em",
-            color: "#c9a04a",
-            margin: "0 0 4px",
-          }}
-        >
-          Alma Adentro II
-        </p>
-        <p
-          style={{
-            fontSize: 12,
-            color: "#7a7060",
-            letterSpacing: ".08em",
-            margin: "0 0 16px",
-            textTransform: "uppercase",
-          }}
-        >
-          Cancionera de la Música Bohemia de Sylvia Rexach y Tutti Umpierre
-        </p>
-        <p
-          style={{
-            fontSize: 11,
-            color: "#5a5448",
-            lineHeight: 1.6,
-            maxWidth: 680,
-            margin: "0 auto",
-            fontStyle: "italic",
-            userSelect: "text",
-            WebkitUserSelect: "text",
-          }}
-        >
-          {HEADER}
-        </p>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+          <Link
+            href="https://www.maritzaida.com"
+            style={{
+              fontSize: 13,
+              color: "#9a8e7a",
+              textDecoration: "none",
+              letterSpacing: ".04em",
+              userSelect: "text",
+              WebkitUserSelect: "text",
+            }}
+          >
+            {ui.back}
+          </Link>
+          <div style={{ width: 120 }} />
+        </div>
+        <div style={{ textAlign: "center" }}>
+          <p
+            style={{
+              fontFamily: "var(--font-cormorant, Georgia, serif)",
+              fontSize: "clamp(22px, 3vw, 30px)",
+              fontWeight: 300,
+              letterSpacing: ".04em",
+              color: "#c9a04a",
+              margin: "0 0 4px",
+            }}
+          >
+            Alma Adentro II
+          </p>
+          <p
+            style={{
+              fontSize: 13,
+              color: "#9a8e7a",
+              letterSpacing: ".08em",
+              margin: "0 0 14px",
+              textTransform: "uppercase",
+            }}
+          >
+            Cancionera de la Música Bohemia de Sylvia Rexach y Tutti Umpierre
+          </p>
+          <p
+            style={{
+              fontSize: 12,
+              color: "#7a7060",
+              lineHeight: 1.7,
+              maxWidth: 680,
+              margin: "0 auto",
+              fontStyle: "italic",
+              userSelect: "text",
+              WebkitUserSelect: "text",
+            }}
+          >
+            {HEADER}
+          </p>
+        </div>
       </div>
 
       {/* Controls */}
@@ -252,7 +371,7 @@ export default function CancioneraReader({
           top: 0,
           zIndex: 50,
           background: "#0d0b09",
-          borderBottom: "1px solid #1e1a14",
+          borderBottom: "1px solid #2a2218",
           padding: "10px 16px",
           display: "flex",
           flexWrap: "wrap",
@@ -262,30 +381,26 @@ export default function CancioneraReader({
         }}
       >
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
-          {/* TOC toggle */}
           {btn(tocOpen, ui.toc, () => setTocOpen((o) => !o))}
-
-          {/* Layout (hidden on mobile) */}
           <span className="hidden md:flex" style={{ display: "flex", gap: 6 }}>
             {btn(layout === "spread", ui.spread, () => changeLayout("spread"))}
             {btn(layout === "single", ui.single, () => changeLayout("single"))}
           </span>
         </div>
 
-        {/* Navigation */}
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
           <button
             onClick={() => go(-1)}
             disabled={page <= 1}
             style={{
-              width: 30, height: 30, background: "transparent",
-              border: "1px solid #252018", color: "#c9a04a",
+              width: 34, height: 34, background: "transparent",
+              border: "1px solid #2a241c", color: "#c9a04a",
               cursor: page <= 1 ? "default" : "pointer",
-              opacity: page <= 1 ? .3 : 1, fontSize: 15,
+              opacity: page <= 1 ? .3 : 1, fontSize: 16,
             }}
           >←</button>
-          <form onSubmit={handleJump} style={{ display: "flex", alignItems: "center", gap: 4 }}>
-            <span style={{ fontSize: 11, color: "#5a5448" }}>{ui.page}</span>
+          <form onSubmit={handleJump} style={{ display: "flex", alignItems: "center", gap: 5 }}>
+            <span style={{ fontSize: 13, color: "#7a7060" }}>{ui.page}</span>
             <input
               type="text"
               inputMode="numeric"
@@ -293,21 +408,21 @@ export default function CancioneraReader({
               onChange={(e) => setJumpInput(e.target.value)}
               onFocus={() => setJumpInput("")}
               style={{
-                width: 40, padding: "3px 5px", textAlign: "center",
-                background: "#0d0b09", border: "1px solid #252018",
-                color: "#e8dcc8", fontSize: 11, fontFamily: "inherit",
+                width: 44, padding: "4px 6px", textAlign: "center",
+                background: "#0d0b09", border: "1px solid #2a241c",
+                color: "#e8dcc8", fontSize: 13, fontFamily: "inherit",
               }}
             />
-            <span style={{ fontSize: 11, color: "#5a5448" }}>{ui.of} {maxPage}</span>
+            <span style={{ fontSize: 13, color: "#7a7060" }}>{ui.of} {maxPage}</span>
           </form>
           <button
             onClick={() => go(1)}
             disabled={page >= maxPage}
             style={{
-              width: 30, height: 30, background: "transparent",
-              border: "1px solid #252018", color: "#c9a04a",
+              width: 34, height: 34, background: "transparent",
+              border: "1px solid #2a241c", color: "#c9a04a",
               cursor: page >= maxPage ? "default" : "pointer",
-              opacity: page >= maxPage ? .3 : 1, fontSize: 15,
+              opacity: page >= maxPage ? .3 : 1, fontSize: 16,
             }}
           >→</button>
         </div>
@@ -319,10 +434,10 @@ export default function CancioneraReader({
         {tocOpen && (
           <div
             style={{
-              width: "min(280px, 85vw)",
-              minHeight: "calc(100vh - 120px)",
+              width: "min(300px, 88vw)",
+              minHeight: "calc(100vh - 130px)",
               background: "#0a0906",
-              borderRight: "1px solid #1e1a14",
+              borderRight: "1px solid #2a2218",
               overflowY: "auto",
               flexShrink: 0,
               position: "sticky",
@@ -330,16 +445,16 @@ export default function CancioneraReader({
               maxHeight: "calc(100vh - 48px)",
             }}
           >
-            <div style={{ padding: "16px 0 32px" }}>
+            <div style={{ padding: "12px 0 48px" }}>
               {songs.map((song) => (
                 <div
                   key={song.id}
                   style={{
-                    padding: "10px 16px",
-                    borderBottom: "1px solid #141210",
+                    padding: "11px 16px",
+                    borderBottom: "1px solid #1a1610",
                     display: "flex",
                     alignItems: "center",
-                    gap: 8,
+                    gap: 10,
                     justifyContent: "space-between",
                   }}
                 >
@@ -348,17 +463,17 @@ export default function CancioneraReader({
                     style={{
                       background: "none",
                       border: "none",
-                      color: "#c9a04a",
+                      color: "#e8dcc8",
                       cursor: "pointer",
                       textAlign: "left",
                       padding: 0,
-                      fontSize: 12,
-                      lineHeight: 1.3,
+                      fontSize: 14,
+                      lineHeight: 1.4,
                       fontFamily: "inherit",
                       flex: 1,
                     }}
                   >
-                    <span style={{ color: "#4a4438", fontSize: 10, display: "block", marginBottom: 2 }}>
+                    <span style={{ color: "#6a6050", fontSize: 11, display: "block", marginBottom: 2 }}>
                       {song.id}.
                     </span>
                     {song.title[lang]}
@@ -368,11 +483,11 @@ export default function CancioneraReader({
                     title={ui.listen}
                     style={{
                       background: "none",
-                      border: "1px solid #2a2218",
+                      border: "1px solid #3a3020",
                       color: "#c9a04a",
                       cursor: "pointer",
-                      padding: "3px 7px",
-                      fontSize: 11,
+                      padding: "4px 10px",
+                      fontSize: 13,
                       fontFamily: "inherit",
                       flexShrink: 0,
                     }}
@@ -387,7 +502,7 @@ export default function CancioneraReader({
 
         {/* Reader */}
         {totalPages === 0 ? (
-          <div style={{ flex: 1, textAlign: "center", padding: "80px 24px", color: "#5a5448", fontSize: 14 }}>
+          <div style={{ flex: 1, textAlign: "center", padding: "80px 24px", color: "#7a7060", fontSize: 15 }}>
             Book not yet available.
           </div>
         ) : (
@@ -398,7 +513,7 @@ export default function CancioneraReader({
               justifyContent: "center",
               alignItems: "flex-start",
               gap: layout === "spread" ? 8 : 0,
-              padding: "24px 12px 64px",
+              padding: "24px 12px 96px",
               position: "relative",
             }}
           >
@@ -407,7 +522,7 @@ export default function CancioneraReader({
                 style={{
                   position: "absolute", inset: 0, display: "flex",
                   alignItems: "center", justifyContent: "center",
-                  background: "rgba(13,11,9,0.75)", zIndex: 10, fontSize: 12,
+                  background: "rgba(13,11,9,0.75)", zIndex: 10, fontSize: 13,
                   color: "#c9a04a", letterSpacing: ".15em", textTransform: "uppercase",
                 }}
               >
@@ -442,50 +557,118 @@ export default function CancioneraReader({
         )}
       </div>
 
-      {/* YouTube Modal */}
+      {/* Mini audio player bar */}
       {ytSong && (
         <div
-          onClick={() => setYtSong(null)}
           style={{
-            position: "fixed", inset: 0, zIndex: 100,
-            background: "rgba(5,4,3,0.92)",
-            display: "flex", flexDirection: "column",
-            alignItems: "center", justifyContent: "center",
-            padding: 24,
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: 200,
+            background: "#111008",
+            borderTop: "1px solid #3a3020",
+            padding: "12px 20px 14px",
+            display: "flex",
+            alignItems: "center",
+            gap: 14,
           }}
         >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{ width: "min(640px, 100%)", position: "relative" }}
-          >
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-              <span style={{ fontFamily: "var(--font-cormorant, Georgia)", fontSize: 20, color: "#c9a04a", fontWeight: 300 }}>
-                {ytSong.title[lang]}
-              </span>
-              <button
-                onClick={() => setYtSong(null)}
-                style={{
-                  background: "none", border: "1px solid #2a2218",
-                  color: "#7a7060", cursor: "pointer", padding: "4px 10px",
-                  fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase",
-                  fontFamily: "inherit",
-                }}
-              >
-                {ui.close}
-              </button>
+          {/* Song title */}
+          <div style={{ flex: "0 0 auto", maxWidth: "30%", minWidth: 0 }}>
+            <div style={{
+              fontSize: 11,
+              color: "#6a6050",
+              letterSpacing: ".08em",
+              textTransform: "uppercase",
+              marginBottom: 2,
+            }}>
+              {ui.listen}
             </div>
-            <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-              <iframe
-                src={`https://www.youtube.com/embed/${ytSong.youtubeId}?autoplay=1`}
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-                style={{
-                  position: "absolute", top: 0, left: 0,
-                  width: "100%", height: "100%", border: "none",
-                }}
-              />
+            <div style={{
+              fontSize: 14,
+              color: "#c9a04a",
+              fontFamily: "var(--font-cormorant, Georgia, serif)",
+              fontWeight: 300,
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}>
+              {ytSong.title[lang]}
             </div>
           </div>
+
+          {/* Play / Pause */}
+          <button
+            onClick={ytTogglePlay}
+            style={{
+              width: 40,
+              height: 40,
+              border: "1px solid #4a3e28",
+              background: "transparent",
+              color: "#c9a04a",
+              cursor: "pointer",
+              fontSize: 16,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexShrink: 0,
+            }}
+          >
+            {ytPlaying ? "⏸" : "▶"}
+          </button>
+
+          {/* Progress */}
+          <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+            <span style={{ fontSize: 12, color: "#9a8e7a", flexShrink: 0, fontVariantNumeric: "tabular-nums" }}>
+              {formatTime(displayCurrent)}
+            </span>
+            <div style={{ flex: 1, position: "relative" }}>
+              <input
+                type="range"
+                min={0}
+                max={ytProgress.duration || 1}
+                step={0.5}
+                value={displayCurrent}
+                onChange={(e) => {
+                  setScrubbing(true);
+                  setScrubValue(Number(e.target.value));
+                  setYtProgress(p => ({ ...p, current: Number(e.target.value) }));
+                }}
+                onMouseUp={(e) => {
+                  ytPlayerRef.current?.seekTo(Number(e.currentTarget.value), true);
+                  setScrubbing(false);
+                }}
+                onTouchEnd={(e) => {
+                  ytPlayerRef.current?.seekTo(Number(e.currentTarget.value), true);
+                  setScrubbing(false);
+                }}
+                style={{ width: "100%", accentColor: "#c9a04a", cursor: "pointer" }}
+              />
+            </div>
+            <span style={{ fontSize: 12, color: "#6a6050", flexShrink: 0, fontVariantNumeric: "tabular-nums" }}>
+              {formatTime(ytProgress.duration)}
+            </span>
+          </div>
+
+          {/* Close */}
+          <button
+            onClick={ytClose}
+            style={{
+              background: "none",
+              border: "1px solid #2a241c",
+              color: "#7a7060",
+              cursor: "pointer",
+              padding: "5px 12px",
+              fontSize: 12,
+              letterSpacing: ".08em",
+              textTransform: "uppercase",
+              fontFamily: "inherit",
+              flexShrink: 0,
+            }}
+          >
+            {ui.close}
+          </button>
         </div>
       )}
 
@@ -493,6 +676,30 @@ export default function CancioneraReader({
         @media print { * { display: none !important; } }
         @media (max-width: 767px) {
           .hidden.md\\:flex { display: none !important; }
+        }
+        input[type=range] {
+          -webkit-appearance: none;
+          appearance: none;
+          height: 4px;
+          background: #2a241c;
+          border-radius: 2px;
+          outline: none;
+        }
+        input[type=range]::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          background: #c9a04a;
+          cursor: pointer;
+        }
+        input[type=range]::-moz-range-thumb {
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          background: #c9a04a;
+          cursor: pointer;
+          border: none;
         }
       `}</style>
     </div>
